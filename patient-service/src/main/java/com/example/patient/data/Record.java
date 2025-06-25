@@ -3,6 +3,8 @@ package com.example.patient.data;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "records")
 public class Record {
@@ -21,6 +23,7 @@ public class Record {
 
     @ManyToOne
     @JoinColumn(name = "patientid")
+    @JsonBackReference
     private Patient patient;
 
     public int getId() {
