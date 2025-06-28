@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import patientApi from '../services/patientApi';
-import '../styles/RecordForm.css'; // Your existing CSS file
+import '../styles/RecordForm.css';
 
-export default function RecordForm({ patientId }) {
+export default function RecordForm() {
+  const { id: patientId } = useParams();
+
   const [record, setRecord] = useState({
     description: '',
     date: '',

@@ -27,3 +27,21 @@
   color: #666;
   border-top: 1px solid #ddd;
 }
+
+.nav-bar {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.nav-bar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.nav-bar a:hover {
+  color: #ffdd57;
+}
