@@ -2,7 +2,7 @@
 
 --2.patient service - dbName: patientDB
 
---3.staff service - dbName: staffDB
+
 
 --4.appointment service - dbName: appointmentDB
 

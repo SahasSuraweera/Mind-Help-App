@@ -21,7 +21,7 @@ CREATE TABLE records (
     FOREIGN KEY (patientid) REFERENCES patients(id) ON DELETE CASCADE
 );
 
---3.staff service - dbName: staffDB
+--3.staff service - dbName: staff
 
 --4.appointment service - dbName: appointmentDB
 
