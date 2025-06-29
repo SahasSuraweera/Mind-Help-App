@@ -46,7 +46,7 @@ function App() {
             <Route path="/patients/:id" element={<PatientDetails />} />
             <Route path="/patients/:id/update" element={<PatientUpdate />} />
             <Route path="/patients/:id/records/new" element={<RecordForm />} />
-            <Route path="/patients/:id/records" element={<RecordListWrapper />} /
+            <Route path="/patients/:id/records" element={<RecordListWrapper />} />
             <Route path="/appointments" element={<AppointmentList />} />
             <Route path="/appointments/book" element={<SlotBookingForm />} />
             <Route path="/appointments/slots" element={<AvailableSlots />} />
