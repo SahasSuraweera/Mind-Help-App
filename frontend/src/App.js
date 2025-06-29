@@ -30,6 +30,10 @@ function App() {
             <Link to="/">Home</Link>
             <Link to="/patients">Patients</Link>
             <Link to="/patients/new">Add Patient</Link>
+            <Link to="/payments/new">All payments</Link>
+            <Link to="/appointments">Appointments</Link>
+            <Link to="/appointments/book">Book Slot</Link>
+            <Link to="/appointments/slots">Slots Available</Link>
             <Link to="/payments">Payments</Link>
             <Link to="/appointments">Appointments</Link>
             <Link to="/appointments/book">Book Slot</Link>
@@ -47,14 +51,16 @@ function App() {
             <Route path="/patients/:id" element={<PatientDetails />} />
             <Route path="/patients/:id/update" element={<PatientUpdate />} />
             <Route path="/patients/:id/records/new" element={<RecordForm />} />
-            <Route path="/patients/:id/records" element={<RecordListWrapper />} />
+            <Route path="/patients/:id/records" element={<RecordListWrapper />} /
+            <Route path="/appointments" element={<AppointmentList />} />
+            <Route path="/appointments/book" element={<SlotBookingForm />} />
+            <Route path="/appointments/slots" element={<AvailableSlots />} />
             <Route path="/payments" element={<PaymentList />} />
             <Route path="/appointments" element={<AppointmentList />} />
             <Route path="/appointments/book" element={<SlotBookingForm />} />
             <Route path="/appointments/slots" element={<AvailableSlots />} />
           </Routes>
         </main>
-
         <footer className="app-footer">
           <p>&copy; {new Date().getFullYear()} MindHelp — All rights reserved</p>
         </footer>
