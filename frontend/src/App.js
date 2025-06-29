@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useParams } from 'react-router-dom';
 
+import AppointmentList from './components/AppointmentList';
+import AvailableSlots from './components/AvailableSlots';
 import Home from './components/Home';
 import PatientForm from './components/PatientForm';
 import PatientList from './components/PatientList';
@@ -8,9 +10,7 @@ import PatientDetails from './components/PatientDetails';
 import PatientUpdate from './components/PatientUpdate';
 import RecordForm from './components/RecordForm';
 import RecordList from './components/RecordList';
-import AppointmentList from './components/AppointmentList';
 import SlotBookingForm from './components/SlotBookingForm';
-import AvailableSlots from './components/AvailableSlots';
 
 
 import './styles/App.css';
