@@ -47,14 +47,14 @@ CREATE TABLE Staff (
 --5.payment service - dbName: paymentDB
 
 CREATE TABLE payment (
-    payment_ID INT PRIMARY KEY AUTO_INCREMENT,
+    payment_id INT PRIMARY KEY AUTO_INCREMENT,
     patient_id INT NOT NULL,
     appointment_id INT NOT NULL,
     amount FLOAT NOT NULL,
     payment_type ENUM('online', 'pos', 'cash', 'bank transfer') DEFAULT NULL,
     date DATE NOT NULL DEFAULT CURDATE(),
     created_at TIME DEFAULT CURRENT_TIME;
-    created_staff_ID INT NULL,
+    created_staff_id INT NULL,
     status ENUM('Pending', 'Processing', 'Completed', 'Failure', 'Refunded') DEFAULT NULL,
     is_Deleted BOOLEAN DEFAULT 0
 );
