@@ -8,6 +8,10 @@ import PatientDetails from './components/PatientDetails';
 import PatientUpdate from './components/PatientUpdate';
 import RecordForm from './components/RecordForm';
 import RecordList from './components/RecordList';
+import AppointmentList from './components/AppointmentList';
+import SlotBookingForm from './components/SlotBookingForm';
+import AvailableSlots from './components/AvailableSlots';
+
 
 import './styles/App.css';
 import PaymentList from './components/PaymentList';
@@ -21,12 +25,17 @@ function App() {
     <Router>
       <div className="app-container">
         <header className="app-header">
-          <h1>🩺 MindHelp Patient Management System</h1>
+          <h1>🩺 MindHelp Counselling Management System</h1>
           <nav className="nav-bar">
             <Link to="/">Home</Link>
             <Link to="/patients">Patients</Link>
             <Link to="/patients/new">Add Patient</Link>
             <Link to="/payments">Payments</Link>
+            <Link to="/appointments">Appointments</Link>
+            <Link to="/appointments/book">Book Slot</Link>
+            <Link to="/appointments/slots">Slots Available</Link>
+
+
           </nav>
         </header>
 
@@ -40,6 +49,9 @@ function App() {
             <Route path="/patients/:id/records/new" element={<RecordForm />} />
             <Route path="/patients/:id/records" element={<RecordListWrapper />} />
             <Route path="/payments" element={<PaymentList />} />
+            <Route path="/appointments" element={<AppointmentList />} />
+            <Route path="/appointments/book" element={<SlotBookingForm />} />
+            <Route path="/appointments/slots" element={<AvailableSlots />} />
           </Routes>
         </main>
 

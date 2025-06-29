@@ -25,11 +25,6 @@ public class PaymentController {
         return paymentService.getPaymentById(paymentId);
     }
 
-    @GetMapping("/patients/payments")
-    public List<Payment> getPaymentsByPatientId(@RequestParam int patientId) {
-        return paymentService.getPaymentsByPatientId(patientId);
-    }
-
     @PostMapping
     public Payment createPayment(@RequestBody Payment pay) {
         return paymentService.createPayment(pay);

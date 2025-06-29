@@ -10,6 +10,4 @@ import java.util.List;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 
-    @Query("SELECT p FROM Payment p WHERE p.patientId = :patientId AND p.isDeleted = false")
-    List<Payment> findPaymentsByPatientId(@Param("patientId") int patientId);
 }
