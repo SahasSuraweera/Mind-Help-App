@@ -8,10 +8,9 @@ import PatientDetails from './components/PatientDetails';
 import PatientUpdate from './components/PatientUpdate';
 import RecordForm from './components/RecordForm';
 import RecordList from './components/RecordList';
-import PaymentList from './components/Payment';
+import PaymentList from './components/PaymentList';
 
 import './styles/App.css';
-import PaymentList from './components/PaymentList';
 
 function RecordListWrapper() {
   const { id } = useParams();
