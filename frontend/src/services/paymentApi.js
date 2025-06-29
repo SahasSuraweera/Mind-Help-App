@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const paymentApi = axios.create({
-  baseURL: process.env.REACT_APP_PAYMENT_API_URL
+  baseURL: 'http://localhost:8084/mind-help',
 });
 
 export default paymentApi;
