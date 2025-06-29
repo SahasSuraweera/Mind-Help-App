@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const paymentApi = axios.create({
-  baseURL: 'http://localhost:8084/payment-service',
+  baseURL: process.env.REACT_APP_PAYMENT_API_URL
 });
 
 export default paymentApi;

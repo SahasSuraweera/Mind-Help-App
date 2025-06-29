@@ -33,6 +33,7 @@ export default function PatientList() {
             <div className="card-main" onClick={() => navigate(`/patients/${p.id}`)}>
               <strong>{p.name}</strong>
               <p>Email: {p.email}</p>
+              <p>Date of Birth: {p.dob}</p>
               <p>Phone: {p.phone}</p>
             </div>
             <div className="card-actions">

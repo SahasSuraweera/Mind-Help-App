@@ -8,6 +8,7 @@ import PatientDetails from './components/PatientDetails';
 import PatientUpdate from './components/PatientUpdate';
 import RecordForm from './components/RecordForm';
 import RecordList from './components/RecordList';
+import Payment from './components/Payment';
 
 import './styles/App.css';
 
@@ -25,7 +26,7 @@ function App() {
             <Link to="/">Home</Link>
             <Link to="/patients">Patients</Link>
             <Link to="/patients/new">Add Patient</Link>
-            <Link to="/payments/new">All payments</Link>
+            <Link to="/payments/new">All Payments</Link>
           </nav>
         </header>
 
@@ -38,6 +39,7 @@ function App() {
             <Route path="/patients/:id/update" element={<PatientUpdate />} />
             <Route path="/patients/:id/records/new" element={<RecordForm />} />
             <Route path="/patients/:id/records" element={<RecordListWrapper />} />
+            <Route path="/payments/new" element={<Payment />} />
           </Routes>
         </main>
 

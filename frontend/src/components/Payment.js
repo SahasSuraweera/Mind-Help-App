@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import paymentApi from '../services/paymentApi'; // <-- make sure this exists
-import '../styles/payment.css'; // reuse styling or create a new one
+import '../styles/Payment.css'; // reuse styling or create a new one
 
 export default function PaymentList() {
   const [payments, setPayments] = useState([]);
