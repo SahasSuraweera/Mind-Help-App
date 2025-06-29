@@ -35,7 +35,7 @@ public class Payment {
     private LocalTime createdAt;
 
     @Column(name = "created_staff_id")
-    private Integer updatedStaffId;
+    private Integer createdStaffId;
 
     @Column(name = "status")
     private String status;
@@ -99,12 +99,13 @@ public class Payment {
         this.createdAt = createdAt;
     }
 
-    public Integer getUpdatedStaffId() {
-        return updatedStaffId;
+    public Integer getCreatedStaffId() {
+        return createdStaffId;
     }
 
-    public void setUpdatedStaffId(Integer updatedStaffId) {
-        this.updatedStaffId = updatedStaffId;
+    public void setCreatedStaffId(Integer createdStaffId) {
+
+        this.createdStaffId = createdStaffId;
     }
 
     public Boolean getIsDeleted() {
