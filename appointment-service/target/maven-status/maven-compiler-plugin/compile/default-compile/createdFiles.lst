@@ -1,0 +1,7 @@
+com\appointments\appointments\data\Appointment.class
+com\appointments\appointments\AppointmentsApplication.class
+com\appointments\appointments\controller\AppointmentController.class
+com\appointments\appointments\data\AppointmentSlot.class
+com\appointments\appointments\service\AppointmentService.class
+com\appointments\appointments\data\AppointmentRepository.class
+com\appointments\appointments\data\SlotRepository.class
