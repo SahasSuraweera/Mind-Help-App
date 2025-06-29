@@ -1,14 +1,15 @@
 package com.appointments.appointments.service;
 
-import com.appointments.appointments.data.Appointment;
-import com.appointments.appointments.data.AppointmentSlot;
-import com.appointments.appointments.data.AppointmentRepository;
-import com.appointments.appointments.data.SlotRepository;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.List;
+import com.appointments.appointments.data.Appointment;
+import com.appointments.appointments.data.AppointmentRepository;
+import com.appointments.appointments.data.AppointmentSlot;
+import com.appointments.appointments.data.SlotRepository;
 
 
 @Service
@@ -27,6 +28,11 @@ public class AppointmentService {
     public List<Appointment> getAllAppointments() {
         return appointmentRepo.findAll();
     }
+
+    public List<AppointmentSlot> getAvailableSlots() {
+    return slotRepo.findByIsAvailableTrue();
+}
+
 
     @Autowired
     private AppointmentRepository appointmentRepo;
