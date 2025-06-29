@@ -14,6 +14,7 @@ import AvailableSlots from './components/AvailableSlots';
 
 
 import './styles/App.css';
+import PaymentList from './components/PaymentList';
 
 function RecordListWrapper() {
   const { id } = useParams();
@@ -33,7 +34,7 @@ function App() {
             <Link to="/appointments">Appointments</Link>
             <Link to="/appointments/book">Book Slot</Link>
             <Link to="/appointments/slots">Slots Available</Link>
-
+            <Link to="/payments">Payments</Link>
           </nav>
         </header>
 
@@ -45,14 +46,13 @@ function App() {
             <Route path="/patients/:id" element={<PatientDetails />} />
             <Route path="/patients/:id/update" element={<PatientUpdate />} />
             <Route path="/patients/:id/records/new" element={<RecordForm />} />
-            <Route path="/patients/:id/records" element={<RecordListWrapper />} />
+            <Route path="/patients/:id/records" element={<RecordListWrapper />} /
             <Route path="/appointments" element={<AppointmentList />} />
             <Route path="/appointments/book" element={<SlotBookingForm />} />
             <Route path="/appointments/slots" element={<AvailableSlots />} />
-
+            <Route path="/payments" element={<PaymentList />} />
           </Routes>
         </main>
-
         <footer className="app-footer">
           <p>&copy; {new Date().getFullYear()} MindHelp — All rights reserved</p>
         </footer>
