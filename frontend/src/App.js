@@ -10,6 +10,8 @@ import RecordForm from './components/RecordForm';
 import RecordList from './components/RecordList';
 import AppointmentList from './components/AppointmentList';
 import SlotBookingForm from './components/SlotBookingForm';
+import AvailableSlots from './components/AvailableSlots';
+
 
 import './styles/App.css';
 
@@ -30,6 +32,8 @@ function App() {
             <Link to="/payments/new">All payments</Link>
             <Link to="/appointments">Appointments</Link>
             <Link to="/appointments/book">Book Slot</Link>
+            <Link to="/appointments/slots">Slots Available</Link>
+
           </nav>
         </header>
 
@@ -44,6 +48,8 @@ function App() {
             <Route path="/patients/:id/records" element={<RecordListWrapper />} />
             <Route path="/appointments" element={<AppointmentList />} />
             <Route path="/appointments/book" element={<SlotBookingForm />} />
+            <Route path="/appointments/slots" element={<AvailableSlots />} />
+
           </Routes>
         </main>
 
