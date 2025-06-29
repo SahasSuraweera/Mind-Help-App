@@ -40,9 +40,8 @@ public class Payment {
     @Column(name = "status")
     private String status;
 
-
-
-
+    @Column(name = "is_Deleted")
+    private Boolean isDeleted;
 
     public int getPaymentId() {
         return paymentId;

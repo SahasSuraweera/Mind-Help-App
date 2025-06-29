@@ -15,7 +15,6 @@ function RecordListWrapper() {
   const { id } = useParams();
   return <RecordList patientId={id} />;
 }
-
 function App() {
   return (
     <Router>
@@ -26,6 +25,7 @@ function App() {
             <Link to="/">Home</Link>
             <Link to="/patients">Patients</Link>
             <Link to="/patients/new">Add Patient</Link>
+            <Link to="/payments/new">All payments</Link>
           </nav>
         </header>
 
