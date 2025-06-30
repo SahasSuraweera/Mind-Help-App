@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import paymentApi from '../services/paymentApi';
-import '../styles/Payment.css';
+import '../styles/PaymentCreate.css';
 import { useNavigate } from 'react-router-dom';
 
 export default function PaymentList() {
@@ -67,12 +67,12 @@ export default function PaymentList() {
                     second: '2-digit'
                   })}
                 </p>
-                <p>Processed By: {payment.createdStaffId}</p>
+                <p>Processed Staff ID: {payment.createdStaffId}</p>
                 <p>Status: {payment.status}</p>
 
                 <div className="card-buttons">
                   <button className="btn-update"
-                 onClick={() => navigate(`/payments/update/${payment.paymentId}`)}> Update </button>
+                 onClick={() => navigate(`/payment/update/${payment.paymentId}`)}> Update </button>
                 <button className="btn-delete">Delete</button>
                 </div>
               </div>
