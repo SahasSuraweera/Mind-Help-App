@@ -16,6 +16,7 @@ import PaymentList from './components/PaymentList';
 import PaymentUpdate from './components/PaymentUpdate';
 import CounsellorList from './components/CounsellorList';
 import CounsellorSchedule from './components/CounsellorSchedule';
+import AppointmentCreateSahas from './components/AppointmentCreateSahas';
 
 
 import './styles/App.css';
@@ -65,6 +66,7 @@ function App() {
             <Route path="/payments/update/:paymentId" element={<PaymentUpdate />} />
             <Route path="/counsellors" element={<CounsellorList />} />
             <Route path="/counsellors/schedule/:counsellorId" element={<CounsellorSchedule />} />
+            <Route path="/appointments/create/:counsellorId" element={<AppointmentCreateSahas />} />
           </Routes>
         </main>
         <footer className="app-footer">

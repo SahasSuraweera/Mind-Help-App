@@ -21,7 +21,7 @@ CREATE TABLE records (
     FOREIGN KEY (patientid) REFERENCES patients(id) ON DELETE CASCADE
 );
 
---3.staff service - dbName: staff
+--3.staff service - dbName: staffDB
 
 CREATE TABLE Staff ( 
     staff_id BIGINT PRIMARY KEY AUTO_INCREMENT, 

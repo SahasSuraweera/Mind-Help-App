@@ -33,7 +33,7 @@ export default function CounsellorSchedule() {
 
   const handleSlotClick = (slotTime) => {
     const formattedDate = selectedDate.toISOString().split('T')[0]; // yyyy-MM-dd
-    navigate(`/appointments/book/${counsellorId}?date=${formattedDate}&slot=${encodeURIComponent(slotTime)}`);
+    navigate(`/appointments/create/${counsellorId}?date=${formattedDate}&slot=${encodeURIComponent(slotTime)}`);
   };
 
   const timeSlots = generateTimeSlots();
