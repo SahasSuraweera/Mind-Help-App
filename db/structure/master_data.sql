@@ -47,11 +47,29 @@ CREATE TABLE counsellor (
     specialization VARCHAR(100),
     description TEXT,
     hourly_rate DECIMAL(10, 2),
-    FOREIGN KEY (staff_id) REFERENCES staffmember(staff_id)
+    FOREIGN KEY (staff_id) REFERENCES staff(staff_id)
 );
 
 
 --4.appointment service - dbName: appointmentDB
+
+CREATE TABLE `appointment` (
+  `appointmentid` bigint(20) PRIMARY KEY AUTO_INCREMENT,
+  `date` date DEFAULT NULL,
+  `end_time` time(6) DEFAULT NULL,
+  `feedback` varchar(255) DEFAULT NULL,
+  `is_cancelled` bit(1) NOT NULL,
+  `start_time` time(6) DEFAULT NULL,
+  `slotid` bigint(20) DEFAULT NULL
+);
+
+CREATE TABLE `appointment_slot` (
+  `slotid` bigint(20) PRIMARY KEY AUTO_INCREMENT,
+  `date` date DEFAULT NULL,
+  `is_available` bit(1) NOT NULL,
+  `slot_end_time` time(6) DEFAULT NULL,
+  `slot_start_time` time(6) DEFAULT NULL
+);
 
 --5.payment service - dbName: paymentDB
 
