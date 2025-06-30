@@ -1,6 +1,5 @@
 package com.example.StaffService.controller;
 
-
 import com.example.StaffService.data.StaffMember;
 import com.example.StaffService.service.StaffMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-
 @RequestMapping("/staff")
 public class StaffMemberController {
 
@@ -21,14 +20,17 @@ public class StaffMemberController {
     public List<StaffMember> getAll(){
         return staffMemberService.getAllStaff();
     }
+
     @GetMapping("/{id}")
     public StaffMember getById(@PathVariable int id) {
         return staffMemberService.getStaffById(id);
     }
+
     @PostMapping
     public StaffMember create(@RequestBody StaffMember staff) {
         return staffMemberService.createStaffMember(staff);
     }
+
     @PutMapping("/{id}")
     public StaffMember updateStaff(@RequestBody StaffMember staff) {
         return staffMemberService.updateStaffMember(staff);

@@ -32,6 +32,8 @@ INSERT INTO StaffMember (
 
 
 
+
+
 --4.appointment service - dbName: appointmentDB
 
 --5.payment service - dbName: paymentDB

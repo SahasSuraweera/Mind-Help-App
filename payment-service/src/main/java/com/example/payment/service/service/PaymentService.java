@@ -41,5 +41,9 @@ public class PaymentService {
         return null;
     }
 
+    public List<String> getPaymentStatuses() {
+        return paymentRepo.findDistinctStatuses();
+    }
+
 
 }
