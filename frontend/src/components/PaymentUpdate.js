@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import paymentApi from '../services/paymentApi';
+import '../styles/PaymentUpdate.css'; 
 
-export function PaymentUpdate() {
-  const { id } = useParams();
+export default function PaymentUpdate() {
+  const { paymentId } = useParams();
   const navigate = useNavigate();
 
   const [payment, setPayment] = useState(null);
   const [amount, setAmount] = useState('');
   const [status, setStatus] = useState('');
+  const [statusOptions, setStatusOptions] = useState([]);
   const [error, setError] = useState('');
   const [isUpdating, setIsUpdating] = useState(false);
 
+  // Load payment details
   useEffect(() => {
-    paymentApi.get(`/payments/${id}`)
+    paymentApi.get(`/payments/${paymentId}`)
       .then(res => {
         setPayment(res.data);
         setAmount(res.data.amount);
@@ -24,7 +27,24 @@ export function PaymentUpdate() {
         setPayment(undefined);
         setError('Payment not found or server error.');
       });
-  }, [id]);
+  }, [paymentId]);
+
+  // Load status options dynamically
+  useEffect(() => {
+    paymentApi.get('/payments/statuses')
+      .then(res => {
+        setStatusOptions(res.data);
+        // If current status is not in the list (edge case), select first option
+        if (!res.data.includes(status)) {
+          setStatus(res.data[0] || '');
+        }
+      })
+      .catch(err => {
+        console.error('Failed to load status options', err);
+        // fallback to default hardcoded options if desired
+        setStatusOptions(['Paid', 'Pending', 'Failed']);
+      });
+  }, [status]);
 
   const handleUpdate = () => {
     if (isNaN(amount) || Number(amount) <= 0) {
@@ -35,12 +55,17 @@ export function PaymentUpdate() {
     setIsUpdating(true);
 
     const updated = {
-      ...payment,
-      amount: Number(amount),
-      status
-    };
 
-    paymentApi.put(`/payments/${id}`, updated)
+    paymentId: paymentId,
+    patientId: payment.patientId,
+    appointmentId: payment.appointmentId,
+    amount: parseFloat(amount),
+    paymentType: payment.paymentType,
+    createdStaffId: payment.createdStaffId,
+    status: status,
+    isDeleted: false,
+};
+    paymentApi.put(`/payments/${paymentId}`, updated)
       .then(() => {
         alert('Payment updated successfully');
         navigate('/payments');
@@ -59,12 +84,19 @@ export function PaymentUpdate() {
 
   return (
     <div className="payment-update-container" style={{ padding: '2rem' }}>
-      <h2>Update Payment - ID: {id}</h2>
-
+      <h2>Payment ID: {paymentId}</h2>
+      <p>Patient ID: {payment.patientId}</p>
+      <p>Appointment ID: {payment.appointmentId}</p>
+      <p>Payment Type: {payment.paymentType}</p>
+      <p>Date: {new Date(payment.date).toLocaleDateString()}</p>
+      <p>Processed By: {payment.createdStaffId}</p>
+      <p style={{ color: 'navy' }}>Current Amount: Rs. {payment.amount}</p>
+      <p style={{ color: 'navy' }}>Current Status: {payment.status}</p>
+      <br />
       <label>Amount:</label>
-      <input
+      <input 
         type="number"
-        step="0.01"
+        step="100.00"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
       />
@@ -73,9 +105,11 @@ export function PaymentUpdate() {
 
       <label>Status:</label>
       <select value={status} onChange={(e) => setStatus(e.target.value)}>
-        <option value="Paid">Paid</option>
-        <option value="Pending">Pending</option>
-        <option value="Failed">Failed</option>
+        {statusOptions.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
       </select>
 
       <br /><br />
