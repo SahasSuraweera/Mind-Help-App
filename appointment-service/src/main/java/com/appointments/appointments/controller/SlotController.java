@@ -38,5 +38,14 @@ public class SlotController {
     public List<AppointmentSlot> getAvailableSlots() {
         return service.getAvailableSlots();
     }
+
+    @GetMapping("/available/start")
+    public List<AppointmentSlot> getAvailableStartSlots(
+        @RequestParam int counsellorId,
+        @RequestParam String date,
+        @RequestParam int durationInMinutes
+    ) {
+        return service.findAvailableStartSlots(counsellorId, date, durationInMinutes);
+    }
 }
 

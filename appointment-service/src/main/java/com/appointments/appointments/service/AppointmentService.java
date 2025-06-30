@@ -1,6 +1,7 @@
 package com.appointments.appointments.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,6 @@ public class AppointmentService {
     public List<AppointmentSlot> getAvailableSlots() {
     return slotRepo.findByIsAvailableTrue();
 }
-
 
     @Autowired
     private AppointmentRepository appointmentRepo;
@@ -74,5 +74,25 @@ public class AppointmentService {
         return appointmentRepo.save(appt);
     }
 
+    public List<AppointmentSlot> findAvailableStartSlots(int counsellorId, String dateStr, int durationMinutes) {
+        LocalDate date = LocalDate.parse(dateStr);
+        List<AppointmentSlot> allSlots = slotRepo.findByCounsellorIdAndDateOrderBySlotStartTime(counsellorId, date);
+
+        int requiredSlotCount = durationMinutes / 30;
+        List<AppointmentSlot> validStartSlots = new ArrayList<>();
+
+        for (int i = 0; i <= allSlots.size() - requiredSlotCount; i++) {
+            List<AppointmentSlot> window = allSlots.subList(i, i + requiredSlotCount);
+
+            boolean allAvailable = window.stream().allMatch(AppointmentSlot::getIsAvailable);
+
+            if (allAvailable) {
+                validStartSlots.add(window.get(0)); //only add the first slot as start option
+            }
+        }
+
+        return validStartSlots;
+    }
+    
 }
 
