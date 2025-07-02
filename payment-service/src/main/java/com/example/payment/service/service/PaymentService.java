@@ -24,11 +24,6 @@ public class PaymentService {
         return pay.orElse(null);
     }
 
-    public List<Payment> getPaymentsByPatientId(int patientId) {
-        return paymentRepo.findPaymentsByPatientId(patientId);
-    }
-
-
     public Payment createPayment(Payment payment) {
         return paymentRepo.save(payment);
     }
@@ -44,6 +39,10 @@ public class PaymentService {
             return payment;
         }
         return null;
+    }
+
+    public List<String> getPaymentStatuses() {
+        return paymentRepo.findDistinctStatuses();
     }
 
 
