@@ -28,10 +28,10 @@ public class Payment {
     @Column(name = "payment_type")
     private String paymentType;
 
-    @Column(name = "date", insertable = false, updatable = false)
+    @Column(name = "date")
     private LocalDate date;
 
-    @Column(name = "created_at", insertable = false, updatable = false)
+    @Column(name = "created_at")
     private LocalTime createdAt;
 
     @Column(name = "created_staff_id")

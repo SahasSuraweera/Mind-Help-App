@@ -61,8 +61,8 @@ CREATE TABLE payment (
     appointment_id INT NOT NULL,
     amount FLOAT NOT NULL,
     payment_type ENUM('online', 'pos', 'cash', 'bank transfer') DEFAULT NULL,
-    date DATE NOT NULL DEFAULT CURDATE(),
-    created_at TIME DEFAULT CURRENT_TIME;
+    date DATE NOT NULL,
+    created_at TIME NOT NULL,
     created_staff_id INT NULL,
     status ENUM('Pending', 'Processing', 'Completed', 'Failure', 'Refunded') DEFAULT NULL,
     is_Deleted BOOLEAN DEFAULT 0

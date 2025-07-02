@@ -4,31 +4,26 @@
 
 --3.Staff service - dbName: staffDB
 -- Staff Member 1: Counsellor
-INSERT INTO StaffMember (
-    userId, jobRole, joinedDate, salutation, firstName, middleName, lastName,
-    nic, gender, dateOfBirth, personalEmail, staffEmail, staffPhone, isDeleted
-) VALUES (
-    101, 'Counsellor', '2022-06-01', 'Dr', 'Nimal', 'Kumara', 'Perera',
-    '901234567V', 'Male', '1985-03-12', 'nimal.kumara@example.com', 'nimal.perera@clinic.com', '0771234567', FALSE
-);
+INSERT INTO Staffmember (
+    user_id, job_role, joined_date, salutation, first_name, middle_name, last_name,
+    nic, gender, date_of_birth, personal_email, staff_email, staff_phone
+) VALUES 
+(1, 'Counsellor', '2022-03-01', 'Ms.', 'Nadeesha', 'Dilani', 'Perera', '991234567V', 'Female', '1999-04-12', 'nadeesha.p@gmail.com', 'nadeesha.perera@hospital.com', '0771234567'),
 
--- Staff Member 2: Counsellor
-INSERT INTO StaffMember (
-    userId, jobRole, joinedDate, salutation, firstName, middleName, lastName,
-    nic, gender, dateOfBirth, personalEmail, staffEmail, staffPhone, isDeleted
-) VALUES (
-    102, 'Counsellor', '2023-01-15', 'Ms', 'Sanduni', 'Lakmali', 'Fernando',
-    '910987654V', 'Female', '1990-07-21', 'sanduni.lakmali@example.com', 's.fernando@clinic.com', '0712345678', FALSE
-);
+(2, 'Counsellor', '2021-06-15', 'Mrs.', 'Kumari', NULL, 'Fernando', '882345678V', 'Female', '1988-09-25', 'kumari88@yahoo.com', 'kumari.fernando@hospital.com', '0712345678'),
 
--- Staff Member 3: Receptionist
-INSERT INTO StaffMember (
-    userId, jobRole, joinedDate, salutation, firstName, middleName, lastName,
-    nic, gender, dateOfBirth, personalEmail, staffEmail, staffPhone, isDeleted
-) VALUES (
-    103, 'Receptionist', '2024-03-10', 'Mr', 'Tharindu', 'Nuwan', 'Jayasinghe',
-    '920456789V', 'Male', '1992-11-02', 'tharindu.jayasinghe@example.com', 't.jayasinghe@clinic.com', '0758765432', FALSE
-);
+(3, 'Counsellor', '2020-01-10', 'Dr.', 'Saman', 'Ruwan', 'Jayasinghe', '751234567V', 'Male', '1975-11-03', 'saman.jaya@gmail.com', 'saman.jayasinghe@hospital.com', '0783456789'),
+
+(4, 'Counsellor', '2023-01-20', 'Mr.', 'Nimal', NULL, 'De Silva', '901112223V', 'Male', '1990-01-01', 'nimal.desilva@gmail.com', 'nimal.desilva@hospital.com', '0704567890');
+
+INSERT INTO counsellor (
+    staff_id, display_name, specialization, description, hourly_rate
+) VALUES 
+(1, 'Ms. Nadeesha Dilani Perera', 'Grief Counseling', 'Experienced in helping patients deal with personal loss and emotional trauma.', 4000.00),
+
+(2, 'Mrs. Kumari Fernando', 'Child Counseling', 'Specialist in emotional and behavioral therapy for children.', 4200.00),
+
+(3, 'Dr. Saman Ruwan Jayasinghe', 'Clinical Psychology', 'Senior clinical psychologist with 15+ years of experience.', 5000.00);
 
 
 
@@ -38,10 +33,20 @@ INSERT INTO StaffMember (
 
 --5.payment service - dbName: paymentDB
 
-INSERT INTO Payments (amount, payment_type, date, created_at, status, processed_staff_ID, is_Refunded) VALUES
-(100.50, 'CASH', '2025-06-26', NOW(), 'COMPLETED', 1, 0),
-(250.00, 'CARD', '2025-06-25', NOW(), 'PENDING', 2, 0),
-(75.99, 'ONLINE', '2025-06-24', NOW(), 'COMPLETED', NULL, 0),
-(120.00, 'CASH', '2025-06-23', NOW(), 'REFUNDED', 1, 1),
-(300.25, 'ONLINE', '2025-06-22', NOW(), 'PROCESSING', NULL, 0);
+INSERT INTO payment (
+    patient_id,
+    appointment_id,
+    amount,
+    payment_type,
+    date,
+    created_at,
+    created_staff_id,
+    status,
+    is_Deleted
+) VALUES 
+(1, 1, 1500.00, 'cash', CURDATE(), CURTIME(), 3, 'Completed', 0),
+(2, 2, 2000.50, 'online', '2025-06-30', '10:15:00', 4, 'Processing', 0),
+(3, 3, 1800.00, 'pos', '2025-07-01', '12:45:00', 2, 'Pending', 0),
+(4, 4, 2500.75, 'bank transfer', '2025-06-28', '09:00:00', NULL, 'Completed', 0),
+(5, 5, 1700.25, 'cash', '2025-07-01', '15:30:00', 1, 'Refunded', 0);
 
