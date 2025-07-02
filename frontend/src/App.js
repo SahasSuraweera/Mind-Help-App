@@ -17,8 +17,7 @@ import PaymentUpdate from './components/PaymentUpdate';
 import CounsellorList from './components/CounsellorList';
 import CounsellorSchedule from './components/CounsellorSchedule';
 import AppointmentCreateSahas from './components/AppointmentCreateSahas';
-
-
+import PaymentList from './components/PaymentList';
 import './styles/App.css';
 
 function RecordListWrapper() {
@@ -36,6 +35,7 @@ function App() {
             <Link to="/patients">Patients</Link>
             <Link to="/patients/new">Add Patient</Link>
             <Link to="/counsellors">Counsellors</Link>
+            <Link to="/payments/new">All Payments</Link>
             <Link to="/appointments">Appointments</Link>
             <Link to="/appointments/book">Book Slot</Link>
             <Link to="/appointments/slots">Slots Available</Link>
