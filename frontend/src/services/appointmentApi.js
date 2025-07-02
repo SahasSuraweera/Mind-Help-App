@@ -9,3 +9,6 @@ export const bookAppointment = (slotId, feedback) =>
 
 export const cancelAppointment = (id) =>
   axios.put(`${BASE_URL}/${id}/cancel`);
+
+export const getCounsellorAvailability = (counsellorId) =>
+  axios.get(`${BASE_URL}/counsellors/${counsellorId}/availability`);

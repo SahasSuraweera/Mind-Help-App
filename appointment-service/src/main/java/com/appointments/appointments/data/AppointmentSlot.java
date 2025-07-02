@@ -1,8 +1,12 @@
 package com.appointments.appointments.data;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class AppointmentSlot {
@@ -14,6 +18,8 @@ public class AppointmentSlot {
     private LocalTime slotStartTime;
     private LocalTime slotEndTime;
     private boolean isAvailable = true;
+    private int counsellorId;
+
 
     public int getSlotID() {
         return slotID;
@@ -54,4 +60,11 @@ public class AppointmentSlot {
     public void setIsAvailable(boolean available) {
         isAvailable = available;
     }
+
+    public int getCounsellorId(){
+        return counsellorId;
+    }
+    public void setCounsellorId(int counsellorId) {
+        this.counsellorId = counsellorId;
+   }
 }
