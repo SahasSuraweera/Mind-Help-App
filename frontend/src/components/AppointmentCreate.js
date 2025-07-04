@@ -2,68 +2,76 @@ import React, { useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import appointmentApi from '../services/appointmentApi';
 import staffApi from '../services/staffApi';
+import '../styles/AppointmentCreate.css';
 
 export default function CreateAppointment() {
   const { counsellorId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { slotId, slotDate, slotTime, Fee } = location.state || {};
+  // Destructure safely from location.state
+  const {
+    slotId,
+    slotDate,
+    slotTime,
+    hourlyRate,
+    displayName
+  } = location.state || {};
 
   const [patientName, setPatientName] = useState('');
   const [contactNumber, setContactNumber] = useState('');
   const [notes, setNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Prevent form submission if details missing
+  if (!counsellorId || !slotId || !slotDate || !slotTime || !hourlyRate) {
+    return <p>❌ Missing appointment details. Please go back and select a valid slot.</p>;
+  }
+
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!patientName) {
-    alert('Please enter your name');
-    return;
-  }
+    if (!patientName) {
+      alert('Please enter your name');
+      return;
+    }
 
-  setIsSubmitting(true);
+    setIsSubmitting(true);
 
-  const appointmentData = {
-    slotId: slotId,
-    counsellorId: parseInt(counsellorId),
-    appointmentDate: slotDate,
-    appointmentTime: slotTime,
-    appointmentFee: Fee,
-    patientName: patientName,
-    contactNumber: contactNumber,
-    notes: notes,
-    status: 'Pending',
-    deleted: false
+    const appointmentData = {
+      slotId: slotId,
+      counsellorId: parseInt(counsellorId),
+      appointmentDate: slotDate,
+      appointmentTime: slotTime,
+      appointmentFee: hourlyRate,
+      patientName: patientName,
+      contactNumber: contactNumber,
+      notes: notes,
+      status: 'Pending',
+      deleted: false
+    };
+
+    try {
+      await appointmentApi.post('/appointments', appointmentData);
+      await staffApi.put(`/schedules/${slotId}`);
+      alert(`✅ Appointment booked!\n\n👤 ${patientName}\n📅 ${slotDate}\n🕒 ${slotTime}\n👨‍⚕️ ${displayName}\n💰 Rs. ${hourlyRate}`);
+      navigate('/appointments');
+    } catch (error) {
+      console.error('Error booking appointment:', error);
+      alert('❌ Failed to book appointment. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
-
-  try {
-    await appointmentApi.post('/appointments', appointmentData);
-    await staffApi.put(`/schedules/${slotId}`);
-    alert(`Appointment booked! \nfor ${patientName} \non ${slotDate} \nat ${slotTime} \nwith Counsellor ${counsellorId}\nFee: Rs. ${Fee}`);
-    navigate('/appointments');
-  } catch (error) {
-    console.error('Error booking appointment:', error);
-    alert('Failed to book appointment. Please try again.');
-  } finally {
-    setIsSubmitting(false);
-  }
-};
-
-
-  if (!counsellorId || !slotId || !slotDate || !slotTime || Fee == null) {
-    return <p>Missing appointment details. Please go back and select a valid slot.</p>;
-  }
 
   return (
     <div className="create-appointment-container">
+      <div className="appointment-card">
       <h2>📅 Book Appointment</h2>
-
-      <p><strong>Counsellor ID:</strong> {counsellorId}</p>
+      <p><strong>Counsellor Name:</strong> {displayName}</p>
       <p><strong>Date:</strong> {slotDate}</p>
       <p><strong>Time Slot:</strong> {slotTime}</p>
-      <p><strong>Fee:</strong> Rs. {Fee}</p>
+      <p><strong>Appointment Fee:</strong> Rs. {hourlyRate}</p>
 
       <form onSubmit={handleSubmit} style={{ marginTop: '1rem' }}>
         <div>
@@ -104,6 +112,7 @@ export default function CreateAppointment() {
           {isSubmitting ? 'Booking...' : 'Confirm Appointment'}
         </button>
       </form>
+      </div>
     </div>
   );
 }

@@ -1,54 +1,57 @@
 .schedule-container {
-  max-width: 800px;
+  max-width: 700px;
   margin: 2rem auto;
-  padding: 2rem;
+  padding: 1rem;
+}
+
+.schedule-card {
   background-color: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  transition: all 0.3s ease;
 }
 
 .schedule-title {
-  text-align: center;
-  color: #2c3e50;
+  font-size: 22px;
+  font-weight: bold;
   margin-bottom: 1.5rem;
+  color: #1e88e5;
+  text-align: center;
 }
 
 .date-picker-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
   margin-bottom: 1rem;
-  font-size: 1rem;
 }
 
 .date-picker {
-  padding: 0.4rem 0.8rem;
-  border: 1px solid #ccc;
+  padding: 8px;
+  font-size: 16px;
   border-radius: 6px;
-  font-size: 1rem;
-  cursor: pointer;
+  border: 1px solid #ccc;
 }
 
 .time-slot-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 1rem;
   margin-top: 1rem;
 }
 
 .time-slot {
-  padding: 0.6rem;
-  background-color: #ecf0f1;
-  border: 1px solid #bdc3c7;
-  border-radius: 6px;
+  background-color: #e3f2fd;
+  padding: 1rem;
+  border-radius: 8px;
   text-align: center;
-  font-size: 0.95rem;
-  color: #2c3e50;
-  transition: background-color 0.2s;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
 }
 
 .time-slot:hover {
-  background-color: #0d6c92;
-  cursor: pointer
-};
+  background-color: #90caf9;
+  color: white;
+}
+.time-slot.selected {
+  background-color: #42a5f5;
+  color: white;
+}

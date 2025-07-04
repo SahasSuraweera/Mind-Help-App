@@ -9,12 +9,16 @@ export default function CounsellorSchedule() {
   const { counsellorId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [timeSlots, setTimeSlots] = useState([]);
-
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
   const hourlyRate = location.state?.hourlyRate || 0;
+  const displayName = location.state?.displayName || 'Unknown Counsellor';
 
-  // Format time string (08:30:00 → 08:30 AM)
+  // Format 24-hour time string to 12-hour AM/PM
   const formatTime = (timeString) => {
     const [hourStr, minute] = timeString.split(':');
     let hour = parseInt(hourStr, 10);
@@ -23,10 +27,14 @@ export default function CounsellorSchedule() {
     return `${hour.toString().padStart(2, '0')}:${minute} ${ampm}`;
   };
 
-  // Fetch available slots
+  // Fetch slots from backend when counsellorId or selectedDate changes
   useEffect(() => {
     const fetchTimeSlots = async () => {
+      setLoading(true);
+      setError(null);
+
       const formattedDate = selectedDate.toISOString().split('T')[0];
+
       try {
         const response = await staffApi.get('/schedules/available', {
           params: {
@@ -35,9 +43,12 @@ export default function CounsellorSchedule() {
           },
         });
         setTimeSlots(response.data);
-      } catch (error) {
-        console.error('Error fetching time slots:', error);
+      } catch (err) {
+        console.error('Error fetching time slots:', err);
+        setError('Failed to fetch slots. Please try again.');
         setTimeSlots([]);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -46,20 +57,26 @@ export default function CounsellorSchedule() {
     }
   }, [counsellorId, selectedDate]);
 
+  // Navigate to appointment creation on slot click
   const handleSlotClick = (slot) => {
     navigate(`/appointments/create/${counsellorId}`, {
       state: {
+        displayName: displayName,
         slotId: slot.slotId,
         slotDate: slot.slotDate,
         slotTime: slot.slotTime,
-        Fee: hourlyRate,
+        hourlyRate: hourlyRate,
       },
     });
   };
 
+  // Filter slots to show only available and not booked
+  const availableSlots = timeSlots.filter(slot => slot.available && !slot.booked);
+
   return (
     <div className="schedule-container">
-      <h2 className="schedule-title">🗓️ Schedule for Counsellor ID: {counsellorId}</h2>
+      <div className="schedule-card">
+      <h2 className="schedule-title">🗓️ Schedule for Counsellor: {displayName}</h2>
 
       <div className="date-picker-wrapper">
         <label htmlFor="datepicker"><strong>Select Date:</strong></label>
@@ -77,21 +94,28 @@ export default function CounsellorSchedule() {
         Available Slots for {selectedDate.toDateString()}
       </h3>
 
-      <div className="time-slot-grid">
-        {timeSlots.length > 0 ? (
-          timeSlots.map((slot) => (
-            <div
-              key={slot.slotId}
-              className="time-slot"
-              onClick={() => handleSlotClick(slot)}
-              style={{ cursor: 'pointer' }}
-            >
-              {formatTime(slot.slotTime)}
-            </div>
-          ))
-        ) : (
-          <p style={{ color: 'gray' }}>No available slots for this date.</p>
-        )}
+      {loading ? (
+        <p>Loading slots...</p>
+      ) : error ? (
+        <p style={{ color: 'red' }}>{error}</p>
+      ) : (
+        <div className="time-slot-grid">
+          {availableSlots.length > 0 ? (
+            availableSlots.map((slot) => (
+              <div
+                key={slot.slotId}
+                className="time-slot"
+                onClick={() => handleSlotClick(slot)}
+                style={{ cursor: 'pointer' }}
+              >
+                {formatTime(slot.slotTime)}
+              </div>
+            ))
+          ) : (
+            <p style={{ color: 'gray' }}>No available slots for this date.</p>
+          )}
+        </div>
+      )}
       </div>
     </div>
   );

@@ -51,6 +51,7 @@ export default function CounsellorList() {
                     onClick={() =>
                       navigate(`/counsellors/schedule/${counsellor.counsellorId}`, {
                         state: {
+                          displayName: counsellor.displayName,
                           hourlyRate: counsellor.hourlyRate,
                         }
                       })
