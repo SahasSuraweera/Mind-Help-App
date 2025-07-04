@@ -33,7 +33,7 @@ public class Appointment {
     private String patientName;
 
     @Column(name = "contact_number")
-    private String contactNUmber;
+    private String contactNumber;
 
     @Column(name = "notes")
     private String notes;
@@ -100,12 +100,12 @@ public class Appointment {
         this.patientName = patientName;
     }
 
-    public String getContactNUmber() {
-        return contactNUmber;
+    public String getContactNumber() {
+        return contactNumber;
     }
 
-    public void setContactNUmber(String contactNUmber) {
-        this.contactNUmber = contactNUmber;
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 
     public String getNotes() {

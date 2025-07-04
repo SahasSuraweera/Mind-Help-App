@@ -32,9 +32,14 @@ export default function CreateAppointment() {
     e.preventDefault();
 
     if (!patientName) {
-      alert('Please enter your name');
+      alert('Please enter Patient or Guardian name');
       return;
     }
+
+    if (!/^[+0-9]{10,15}$/.test(contactNumber)) {
+    alert('Please enter a valid contact number (10–15 digits, may start with +).');
+    return;  // stop submission
+  }
 
     setIsSubmitting(true);
 
@@ -48,7 +53,7 @@ export default function CreateAppointment() {
       contactNumber: contactNumber,
       notes: notes,
       status: 'Pending',
-      deleted: false
+      deleted: false,
     };
 
     try {
@@ -75,7 +80,7 @@ export default function CreateAppointment() {
 
       <form onSubmit={handleSubmit} style={{ marginTop: '1rem' }}>
         <div>
-          <label htmlFor="patientName">Patient Name:</label><br />
+          <label htmlFor="patientName">Patient (or Guardian) Name :</label><br />
           <input
             type="text"
             id="patientName"
@@ -92,8 +97,9 @@ export default function CreateAppointment() {
             id="contactNumber"
             value={contactNumber}
             onChange={(e) => setContactNumber(e.target.value)}
-            pattern="[0-9]{10}"
-            placeholder="Enter 10-digit number"
+            pattern="^[+0-9]{10,15}$"
+            title="Enter a valid phone number (e.g., +94771234567 or 0771234567)"
+            placeholder="Enter phone number"
             required
           />
         </div>

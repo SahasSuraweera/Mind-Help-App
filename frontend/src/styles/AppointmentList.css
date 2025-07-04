@@ -1,64 +1,58 @@
 .appointment-list-container {
+  max-width: 90%;
+  margin: 40px auto;
   padding: 20px;
-  max-width: 700px;
-  margin: auto;
-  background-color: #fefefe;
+  background-color: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   font-family: 'Segoe UI', sans-serif;
 }
 
 .appointment-list-container h2 {
   text-align: center;
-  margin-bottom: 20px;
   color: #333;
+  margin-bottom: 25px;
 }
 
-.appointment-item {
-  background-color: #f5f8ff;
-  padding: 15px;
-  margin-bottom: 12px;
-  border-radius: 8px;
-  border-left: 4px solid #4a90e2;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: all 0.3s ease;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  background-color: #f9f9f9;
 }
 
-.appointment-item:hover {
-  background-color: #e6f0ff;
-}
-
-.appointment-info {
-  flex-grow: 1;
-  margin-right: 10px;
-  color: #333;
-}
-
-.feedback-text {
-  font-style: italic;
-  color: #666;
-  font-size: 0.9em;
-  margin-top: 4px;
-}
-
-.cancelled-label {
-  color: #e74c3c;
-  font-weight: bold;
-}
-
-.cancel-btn {
-  background-color: #ff4d4d;
+thead {
+  background-color: #4CAF50;
   color: white;
-  padding: 6px 10px;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+button {
+  background-color: #4CAF50;
   border: none;
+  color: white;
+  padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
-  font-weight: 500;
+  font-size: 14px;
   transition: background-color 0.3s ease;
 }
 
-.cancel-btn:hover {
-  background-color: #d93636;
+button:hover {
+  background-color: #45a049;
+}
+
+p {
+  text-align: center;
+  font-size: 18px;
+  color: #777;
 }

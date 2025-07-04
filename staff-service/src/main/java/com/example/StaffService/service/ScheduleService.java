@@ -18,4 +18,8 @@ public class ScheduleService {
         return scheduleRepository.findAvailableSlotsByCounsellorAndDate(counsellorId, slotDate);
     }
 
+    public String updateSlotById(int slotId) {
+        int updated = scheduleRepository.updateSlotBookedStatus(slotId);
+        return updated > 0 ? "Slot marked as booked." : "Slot not found or already booked.";
+    }
 }

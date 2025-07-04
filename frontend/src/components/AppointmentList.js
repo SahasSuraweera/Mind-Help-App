@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import appointmentApi from '../services/appointmentApi';
 import { useNavigate } from 'react-router-dom';
+import '../styles/AppointmentList.css'; 
 
 export default function AppointmentListPage() {
   const [appointments, setAppointments] = useState([]);
@@ -13,7 +14,9 @@ export default function AppointmentListPage() {
   const fetchAppointments = async () => {
     try {
       const res = await appointmentApi.get('/appointments'); // adjust endpoint as needed
-      setAppointments(res.data);
+      // Sort descending by appointmentId
+      const sortedAppointments = res.data.sort((a, b) => b.appointmentId - a.appointmentId);
+      setAppointments(sortedAppointments);
     } catch (error) {
       console.error('Error fetching appointments:', error);
       alert('Failed to load appointments.');
