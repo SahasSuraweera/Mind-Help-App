@@ -34,7 +34,8 @@ public class PaymentController {
     public Payment createPayment(@RequestBody Payment pay) {
         return paymentService.createPayment(pay);
     }
-    @PutMapping
+
+    @PutMapping("/{paymentId}")
     public Payment updatePayment(@RequestBody Payment pay) {
         return paymentService.createPayment(pay);
     }

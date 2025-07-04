@@ -1,15 +1,23 @@
 package com.appointments.appointments.controller;
 
-import com.appointments.appointments.data.AppointmentSlot;
-import com.appointments.appointments.service.AppointmentService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.appointments.appointments.data.AppointmentSlot;
+import com.appointments.appointments.service.AppointmentService;
+
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/slots")
+@RequestMapping("/appointments/slots")
 public class SlotController {
 
     @Autowired
@@ -25,4 +33,10 @@ public class SlotController {
         LocalDate date = LocalDate.parse(dateStr); // parses "2025-06-30"
         return service.getAvailableSlotsByDate(date);
     }
+    
+    @GetMapping("/available")
+    public List<AppointmentSlot> getAvailableSlots() {
+        return service.getAvailableSlots();
+    }
 }
+
