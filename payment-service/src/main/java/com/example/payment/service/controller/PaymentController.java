@@ -3,6 +3,7 @@ package com.example.payment.service.controller;
 import com.example.payment.service.data.Payment;
 import com.example.payment.service.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,11 +26,6 @@ public class PaymentController {
         return paymentService.getPaymentById(paymentId);
     }
 
-    @GetMapping("/patients/payments")
-    public List<Payment> getPaymentsByPatientId(@RequestParam int patientId) {
-        return paymentService.getPaymentsByPatientId(patientId);
-    }
-
     @PostMapping
     public Payment createPayment(@RequestBody Payment pay) {
         return paymentService.createPayment(pay);
@@ -39,9 +35,14 @@ public class PaymentController {
     public Payment updatePayment(@RequestBody Payment pay) {
         return paymentService.createPayment(pay);
     }
+
     @DeleteMapping("/{paymentId}")
     public Payment deletePaymentById(@PathVariable int paymentId) {
         return paymentService.deletePaymentById(paymentId);
+    }
+    @GetMapping("/statuses")
+    public List<String> getPaymentStatuses() {
+        return paymentService.getPaymentStatuses();
     }
 
 }

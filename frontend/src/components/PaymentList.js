@@ -67,12 +67,12 @@ export default function PaymentList() {
                     second: '2-digit'
                   })}
                 </p>
-                <p>Processed Staff ID: {payment.createdStaffId}</p>
+                <p>Processed By: {payment.createdStaffId}</p>
                 <p>Status: {payment.status}</p>
 
                 <div className="card-buttons">
                   <button className="btn-update"
-                 onClick={() => navigate(`/payment-service/${payment.paymentId}`)}> Update </button>
+                 onClick={() => navigate(`/payments/update/${payment.paymentId}`)}> Update </button>
                 <button className="btn-delete">Delete</button>
                 </div>
               </div>

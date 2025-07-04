@@ -32,6 +32,8 @@ INSERT INTO StaffMember (
 
 
 
+
+
 --4.appointment service - dbName: appointmentDB
 
 --5.payment service - dbName: paymentDB
@@ -42,4 +44,3 @@ INSERT INTO Payments (amount, payment_type, date, created_at, status, processed_
 (75.99, 'ONLINE', '2025-06-24', NOW(), 'COMPLETED', NULL, 0),
 (120.00, 'CASH', '2025-06-23', NOW(), 'REFUNDED', 1, 1),
 (300.25, 'ONLINE', '2025-06-22', NOW(), 'PROCESSING', NULL, 0);
-
