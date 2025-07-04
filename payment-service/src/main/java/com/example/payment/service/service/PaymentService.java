@@ -31,6 +31,7 @@ public class PaymentService {
     public Payment updatePayment(Payment pay) {
         return paymentRepo.save(pay);
     }
+
     public Payment deletePaymentById(int paymentId) {
         Optional<Payment> pay = paymentRepo.findById(paymentId);
         if (pay.isPresent()) {

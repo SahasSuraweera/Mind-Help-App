@@ -50,8 +50,32 @@ CREATE TABLE counsellor (
     FOREIGN KEY (staff_id) REFERENCES staffmember(staff_id)
 );
 
+CREATE TABLE schedule (
+    slot_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    counsellor_id BIGINT NOT NULL,
+    slot_date DATE NOT NULL,
+    slot_time TIME NOT NULL,
+    is_available BOOLEAN DEFAULT TRUE,
+    is_booked BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (counsellor_id) REFERENCES counsellor(counsellor_id)
+);
+
 
 --4.appointment service - dbName: appointmentDB
+
+CREATE TABLE appointment (
+    appointment_id INT AUTO_INCREMENT PRIMARY KEY,
+    slot_id INT NOT NULL,
+    counsellor_id INT NOT NULL,
+    date DATE NOT NULL,
+    time TIME NOT NULL,
+    appointment_fee FLOAT NOT NULL,
+    patient_name VARCHAR(100) NOT NULL,
+    contact_number VARCHAR(15) NOT NULL,
+    notes TEXT,
+    status VARCHAR(50),
+    is_deleted BOOLEAN DEFAULT FALSE
+);
 
 --5.payment service - dbName: paymentDB
 

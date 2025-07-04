@@ -2,7 +2,10 @@ package com.example.StaffService.data;
 
 import jakarta.persistence.*;
 
-    @Entity
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+@Entity
     @Table(name = "counsellor")
     public class Counsellor {
 
@@ -74,3 +77,5 @@ import jakarta.persistence.*;
             this.hourlyRate = hourlyRate;
         }
     }
+
+

@@ -3,83 +3,133 @@ package com.appointments.appointments.data;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name ="appointment")
 public class Appointment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int appointmentID;
+    @Column(name = "appointment_id")
+    private int appointmentId;
 
-    private LocalDate date;
-    private LocalTime startTime;
-    private LocalTime endTime;
-    private String feedback;
-    private boolean isCancelled = false;
+    @Column(name = "slot_id")
+    private int slotId;
 
-    //foreign key slots
-    @ManyToOne
-    @JoinColumn(name = "slotid")
-    private AppointmentSlot slot;
+    @Column(name = "counsellor_id")
+    private int CounsellorId;
 
-    public int getAppointmentID() {
-        return appointmentID;
+    @Column(name = "date")
+    private LocalDate appointmentDate;
+
+    @Column(name = "time")
+    private LocalTime appointmentTime;
+
+    @Column(name = "appointment_fee")
+    private float appointmentFee;
+
+    @Column(name = "patient_name")
+    private String patientName;
+
+    @Column(name = "contact_number")
+    private String contactNUmber;
+
+    @Column(name = "notes")
+    private String notes;
+
+    @Column(name = "status")
+    private String status;
+
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
+    public int getAppointmentId() {
+        return appointmentId;
     }
 
-    public void setAppointmentID(int appointmentID) {
-        this.appointmentID = appointmentID;
+    public void setAppointmentId(int appointmentId) {
+        this.appointmentId = appointmentId;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public int getSlotId() {
+        return slotId;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setSlotId(int slotId) {
+        this.slotId = slotId;
     }
 
-    public LocalTime getStartTime() {
-        return startTime;
+    public int getCounsellorId() {
+        return CounsellorId;
     }
 
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
+    public void setCounsellorId(int counsellorId) {
+        CounsellorId = counsellorId;
     }
 
-    public LocalTime getEndTime() {
-        return endTime;
+    public LocalDate getAppointmentDate() {
+        return appointmentDate;
     }
 
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
+    public void setAppointmentDate(LocalDate appointmentDate) {
+        this.appointmentDate = appointmentDate;
     }
 
-    public String getFeedback() {
-        return feedback;
+    public LocalTime getAppointmentTime() {
+        return appointmentTime;
     }
 
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
+    public void setAppointmentTime(LocalTime appointmentTime) {
+        this.appointmentTime = appointmentTime;
     }
 
-    public boolean isCancelled() {
-        return isCancelled;
+    public float getAppointmentFee() {
+        return appointmentFee;
     }
 
-    public void setCancelled(boolean cancelled) {
-        isCancelled = cancelled;
+    public void setAppointmentFee(float appointmentFee) {
+        this.appointmentFee = appointmentFee;
     }
 
-    public AppointmentSlot getSlot() {
-        return slot;
+    public String getPatientName() {
+        return patientName;
     }
 
-    public void setSlot(AppointmentSlot slot) {
-        this.slot = slot;
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
     }
+
+    public String getContactNUmber() {
+        return contactNUmber;
+    }
+
+    public void setContactNUmber(String contactNUmber) {
+        this.contactNUmber = contactNUmber;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
 }

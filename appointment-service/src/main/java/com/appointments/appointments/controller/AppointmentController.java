@@ -22,23 +22,16 @@ import com.appointments.appointments.service.AppointmentService;
 public class AppointmentController {
 
     @Autowired
-    private AppointmentService service;
-
-    @PostMapping("/book")
-    public Appointment bookAppointment(@RequestBody Map<String, String> request) {
-        int slotId = Integer.parseInt(request.get("slotId"));
-        String feedback = request.getOrDefault("feedback", "");
-        return service.bookAppointment(slotId, feedback);
-    }
+    private AppointmentService appointmentService;
 
     @GetMapping
-    public List<Appointment> getAppointments() {
-        return service.getAllAppointments();
+    public List<Appointment> getAllAppointments() {
+        return appointmentService.getAllAppointments();
     }
 
-    @PutMapping("/{id}/cancel")
-    public Appointment cancelAppointment(@PathVariable int id) {
-        return service.cancelAppointment(id);
+    @PostMapping
+    public Appointment bookAppointment(@RequestBody Appointment appointment) {
+        return appointmentService.createAppointment(appointment);
     }
 
 

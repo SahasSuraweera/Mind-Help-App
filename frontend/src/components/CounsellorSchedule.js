@@ -1,42 +1,61 @@
-import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import staffApi from '../services/staffApi';
 import '../styles/CounsellorSchedule.css';
 
 export default function CounsellorSchedule() {
   const { counsellorId } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [timeSlots, setTimeSlots] = useState([]);
 
-  const generateTimeSlots = () => {
-    const slots = [];
-    let hour = 8;
-    let minute = 30;
+  const hourlyRate = location.state?.hourlyRate || 0;
 
-    while (hour < 16 || (hour === 16 && minute <= 30)) {
-      const start = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-      let endHour = hour;
-      let endMinute = minute + 60;
-      if (endMinute >= 60) {
-        endHour += Math.floor(endMinute / 60);
-        endMinute %= 60;
+  // Format time string (08:30:00 → 08:30 AM)
+  const formatTime = (timeString) => {
+    const [hourStr, minute] = timeString.split(':');
+    let hour = parseInt(hourStr, 10);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    hour = hour % 12 || 12;
+    return `${hour.toString().padStart(2, '0')}:${minute} ${ampm}`;
+  };
+
+  // Fetch available slots
+  useEffect(() => {
+    const fetchTimeSlots = async () => {
+      const formattedDate = selectedDate.toISOString().split('T')[0];
+      try {
+        const response = await staffApi.get('/schedules/available', {
+          params: {
+            counsellorId,
+            slotDate: formattedDate,
+          },
+        });
+        setTimeSlots(response.data);
+      } catch (error) {
+        console.error('Error fetching time slots:', error);
+        setTimeSlots([]);
       }
-      const end = `${endHour.toString().padStart(2, '0')}:${endMinute.toString().padStart(2, '0')}`;
-      slots.push(`${start} - ${end}`);
-      hour = endHour;
-      minute = endMinute;
+    };
+
+    if (counsellorId && selectedDate) {
+      fetchTimeSlots();
     }
+  }, [counsellorId, selectedDate]);
 
-    return slots;
+  const handleSlotClick = (slot) => {
+    navigate(`/appointments/create/${counsellorId}`, {
+      state: {
+        slotId: slot.slotId,
+        slotDate: slot.slotDate,
+        slotTime: slot.slotTime,
+        Fee: hourlyRate,
+      },
+    });
   };
-
-  const handleSlotClick = (slotTime) => {
-    const formattedDate = selectedDate.toISOString().split('T')[0]; // yyyy-MM-dd
-    navigate(`/appointments/create/${counsellorId}?date=${formattedDate}&slot=${encodeURIComponent(slotTime)}`);
-  };
-
-  const timeSlots = generateTimeSlots();
 
   return (
     <div className="schedule-container">
@@ -50,6 +69,7 @@ export default function CounsellorSchedule() {
           onChange={(date) => setSelectedDate(date)}
           dateFormat="yyyy-MM-dd"
           className="date-picker"
+          minDate={new Date()}
         />
       </div>
 
@@ -58,11 +78,20 @@ export default function CounsellorSchedule() {
       </h3>
 
       <div className="time-slot-grid">
-        {timeSlots.map((slot, index) => (
-          <div className="time-slot" key={index} onClick={() => handleSlotClick(slot)}>
-            {slot}
-          </div>
-        ))}
+        {timeSlots.length > 0 ? (
+          timeSlots.map((slot) => (
+            <div
+              key={slot.slotId}
+              className="time-slot"
+              onClick={() => handleSlotClick(slot)}
+              style={{ cursor: 'pointer' }}
+            >
+              {formatTime(slot.slotTime)}
+            </div>
+          ))
+        ) : (
+          <p style={{ color: 'gray' }}>No available slots for this date.</p>
+        )}
       </div>
     </div>
   );
