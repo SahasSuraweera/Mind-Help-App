@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-const paymentApi = axios.create({
-  baseURL: 'http://localhost:8083/staff-service',
+const staffApi = axios.create({
+  baseURL: 'http://localhost:8083/staff-service', 
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
-
 export default staffApi;
