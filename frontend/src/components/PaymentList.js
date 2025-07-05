@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import paymentApi from '../services/paymentApi';
-import '../styles/Payment.css';
+import '../styles/PaymentList.css';
 import { useNavigate } from 'react-router-dom';
 
 export default function PaymentList() {
@@ -9,19 +9,23 @@ export default function PaymentList() {
   const [searchTerm, setSearchTerm] = useState('');
   const [allPayments, setAllPayments] = useState([]);
 
-  // Load all payments initially
   useEffect(() => {
     paymentApi.get('/payments')
       .then((res) => {
-        setPayments(res.data);
-        setAllPayments(res.data);
+        const sortedPayments = res.data.sort((a, b) => {
+          const dateA = new Date(`${a.date}T${a.createdAt}Z`).getTime();
+          const dateB = new Date(`${b.date}T${b.createdAt}Z`).getTime();
+          return dateB - dateA;
+        });
+
+        setPayments(sortedPayments);
+        setAllPayments(sortedPayments);
       })
       .catch((err) => {
         console.error('Failed to fetch payments:', err);
       });
   }, []);
 
-  // Fetch by ID when search term is used
   useEffect(() => {
     if (searchTerm.trim() === '') {
       setPayments(allPayments);
@@ -49,41 +53,55 @@ export default function PaymentList() {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 
-      <div className="payment-card-grid">
-        {payments.length > 0 ? (
-          payments.map(payment => (
-            <div className="payment-card" key={payment.paymentId}>
-              <div className="card-main">
-                <h3>Payment ID: {payment.paymentId}</h3>
-                <p>Patient ID: {payment.patientId}</p>
-                <p>Appointment ID: {payment.appointmentId}</p>
-                <p>Amount: Rs. {payment.amount}</p>
-                <p>Payment Type: {payment.paymentType}</p>
-                <p>Date: {payment.date}</p>
-                <p>
-                  Time: {new Date(`1970-01-01T${payment.createdAt}Z`).toLocaleTimeString([], {
+      <table className="payment-table">
+        <thead>
+          <tr>
+            <th>Payment ID</th>
+            <th>Appointment ID</th>
+            <th>Amount (Rs.)</th>
+            <th>Payment Type</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Processed By</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {payments.length > 0 ? (
+            payments.map(payment => (
+              <tr key={payment.paymentId}>
+                <td>{payment.paymentId}</td>
+                <td>{payment.appointmentId}</td>
+                <td>{payment.amount}</td>
+                <td>{payment.paymentType}</td>
+                <td>{payment.date}</td>
+                <td>
+                  {new Date(`1970-01-01T${payment.createdAt}Z`).toLocaleTimeString([], {
                     hour: '2-digit',
                     minute: '2-digit',
                     second: '2-digit'
                   })}
-                </p>
-                <p>Processed By: {payment.createdStaffId}</p>
-                <p>Status: {payment.status}</p>
-
-                <div className="card-buttons">
-                  <button className="btn-update"
-                 onClick={() => navigate(`/payments/update/${payment.paymentId}`)}> Update </button>
-                <button className="btn-delete">Delete</button>
-                </div>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p style={{ textAlign: 'center', width: '100%' }}>
-            No results found for Payment ID: <strong>{searchTerm}</strong>
-          </p>
-        )}
-      </div>
+                </td>
+                <td>{payment.createdStaffId}</td>
+                <td>
+                  <button
+                    className="btn-update"
+                    onClick={() => navigate(`/appointments/update/${payment.appointmentId}`)}
+                  >
+                    Update
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="9" style={{ textAlign: 'center' }}>
+                No results found for Payment ID: <strong>{searchTerm}</strong>
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </div>
   );
 }

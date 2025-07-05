@@ -1,7 +1,10 @@
 package com.appointments.appointments.data;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,4 +14,17 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 
     @Query("SELECT a FROM Appointment a WHERE a.isDeleted = false")
     List<Appointment> findAllActiveAppointments();
+
+    @Modifying
+    @Query("UPDATE Appointment s SET s.status = :status WHERE s.appointmentId = :appointmentId")
+    int updateAppointmentStatus(@Param("status") String status, @Param("appointmentId") int appointmentId);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Appointment a SET a.isDeleted = true WHERE a.appointmentId = :appointmentId")
+    int softDeleteAppointment(@Param("appointmentId") int appointmentId);
+
 }
+
+
+

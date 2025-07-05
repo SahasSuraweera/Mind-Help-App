@@ -1,89 +1,121 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import paymentApi from '../services/paymentApi';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/PaymentCreate.css';
-import { useNavigate } from 'react-router-dom';
+import appointmentApi from '../services/appointmentApi';
 
-export default function PaymentList() {
+export default function CreatePayment() {
   const navigate = useNavigate();
-  const [payments, setPayments] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [allPayments, setAllPayments] = useState([]);
+  const location = useLocation();
 
-  // Load all payments initially
-  useEffect(() => {
-    paymentApi.get('/payments')
-      .then((res) => {
-        setPayments(res.data);
-        setAllPayments(res.data);
-      })
-      .catch((err) => {
-        console.error('Failed to fetch payments:', err);
-      });
-  }, []);
+  const appointmentId = location.state?.appointmentId;
+  const amount = location.state?.amount;
 
-  // Fetch by ID when search term is used
+  const [paymentType, setPaymentType] = useState('cash');
+  const [reference, setReference] = useState('');
+  const [status, setStatus] = useState('Completed'); // Optional: remove if not stored
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [currentDate, setCurrentDate] = useState('');
+  const [currentTime, setCurrentTime] = useState('');
+
+  const createdStaffId = 3;
+
   useEffect(() => {
-    if (searchTerm.trim() === '') {
-      setPayments(allPayments);
-    } else {
-      paymentApi.get(`/payments/${searchTerm}`)
-        .then(res => {
-          setPayments([res.data]);
-        })
-        .catch(err => {
-          console.error(`Payment ID ${searchTerm} not found`, err);
-          setPayments([]);
-        });
+    if (!appointmentId || !amount) {
+      alert('Missing appointment or amount data. Redirecting...');
+      navigate('/appointments');
+      return;
     }
-  }, [searchTerm]);
+
+    const now = new Date();
+    setCurrentDate(now.toISOString().split('T')[0]); // YYYY-MM-DD
+    const sriLankaTime = now.toLocaleTimeString('en-GB', {
+     hour12: false,
+    timeZone: 'Asia/Colombo'
+});
+setCurrentTime(sriLankaTime);
+
+  }, [appointmentId, amount, navigate]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const paymentPayload = {
+      appointmentId: parseInt(appointmentId),
+      amount: parseFloat(amount),
+      paymentType,
+      reference,
+      date: currentDate,
+      createdAt: currentTime,
+      createdStaffId,
+      isDeleted: false
+    };
+
+    try {
+      setIsSubmitting(true);
+      await paymentApi.post('/payments', paymentPayload);
+      await appointmentApi.put(`/appointments/${appointmentId}/status`, null, {
+      params: { status: 'completed' }
+      });
+      alert('✅ Payment created successfully!');
+      navigate('/payments');
+    } catch (error) {
+      console.error('Failed to create payment:', error);
+      alert('❌ Error while creating payment.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
-    <div className="payment-list-container">
-      <h2 className="payment-list-heading">Payments</h2>
+    <div className="page-container">
+      <h2>Create Payment {currentTime}</h2>
 
-      <input
-        type="text"
-        className="search-bar"
-        placeholder="Search by Payment ID"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-
-      <div className="payment-card-grid">
-        {payments.length > 0 ? (
-          payments.map(payment => (
-            <div className="payment-card" key={payment.paymentId}>
-              <div className="card-main">
-                <h3>Payment ID: {payment.paymentId}</h3>
-                <p>Patient ID: {payment.patientId}</p>
-                <p>Appointment ID: {payment.appointmentId}</p>
-                <p>Amount: Rs. {payment.amount}</p>
-                <p>Payment Type: {payment.paymentType}</p>
-                <p>Date: {payment.date}</p>
-                <p>
-                  Time: {new Date(`1970-01-01T${payment.createdAt}Z`).toLocaleTimeString([], {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit'
-                  })}
-                </p>
-                <p>Processed Staff ID: {payment.createdStaffId}</p>
-                <p>Status: {payment.status}</p>
-
-                <div className="card-buttons">
-                  <button className="btn-update"
-                 onClick={() => navigate(`/payment/update/${payment.paymentId}`)}> Update </button>
-                <button className="btn-delete">Delete</button>
-                </div>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p style={{ textAlign: 'center', width: '100%' }}>
-            No results found for Payment ID: <strong>{searchTerm}</strong>
-          </p>
-        )}
+      <div className="info-card">
+        <div>
+          <label>Appointment ID</label>
+          <span>{appointmentId}</span>
+        </div>
+        <div>
+          <label>Date</label>
+          <span>{currentDate}</span>
+        </div>
+        <div>
+          <label>Fee (Rs.)</label>
+          <span>{amount}</span>
+        </div>
       </div>
+
+      <form onSubmit={handleSubmit} className="form">
+        <div>
+          <label>Payment Type:</label>
+          <select
+            value={paymentType}
+            onChange={(e) => setPaymentType(e.target.value)}
+            required
+          >
+            <option value="cash">Cash</option>
+            <option value="online">Online</option>
+            <option value="pos">POS</option>
+            <option value="bank transfer">Bank Transfer</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Reference (optional):</label>
+          <input
+            type="text"
+            value={reference}
+            onChange={(e) => setReference(e.target.value)}
+            placeholder="e.g. TXN-20250705-001"
+          />
+        </div>
+
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Creating...' : 'Create Payment'}
+        </button>
+      </form>
     </div>
   );
 }

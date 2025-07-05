@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import paymentApi from '../services/paymentApi';
-import '../styles/PaymentUpdate.css'; 
+import '../styles/PaymentUpdate.css';
 
 export default function PaymentUpdate() {
   const { paymentId } = useParams();
@@ -9,8 +9,7 @@ export default function PaymentUpdate() {
 
   const [payment, setPayment] = useState(null);
   const [amount, setAmount] = useState('');
-  const [status, setStatus] = useState('');
-  const [statusOptions, setStatusOptions] = useState([]);
+  const [reference, setReference] = useState('');
   const [error, setError] = useState('');
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -20,7 +19,7 @@ export default function PaymentUpdate() {
       .then(res => {
         setPayment(res.data);
         setAmount(res.data.amount);
-        setStatus(res.data.status);
+        setReference(res.data.reference || '');
       })
       .catch(err => {
         console.error('Failed to load payment', err);
@@ -29,53 +28,55 @@ export default function PaymentUpdate() {
       });
   }, [paymentId]);
 
-  // Load status options dynamically
-  useEffect(() => {
-    paymentApi.get('/payments/statuses')
-      .then(res => {
-        setStatusOptions(res.data);
-        // If current status is not in the list (edge case), select first option
-        if (!res.data.includes(status)) {
-          setStatus(res.data[0] || '');
-        }
-      })
-      .catch(err => {
-        console.error('Failed to load status options', err);
-        // fallback to default hardcoded options if desired
-        setStatusOptions(['Paid', 'Pending', 'Failed']);
-      });
-  }, [status]);
-
   const handleUpdate = () => {
     if (isNaN(amount) || Number(amount) <= 0) {
       alert('Please enter a valid amount');
       return;
     }
 
+    if (!reference.trim()) {
+      alert('Reference cannot be empty');
+      return;
+    }
+
     setIsUpdating(true);
 
     const updated = {
+      paymentId: paymentId,
+      appointmentId: payment.appointmentId,
+      amount: parseFloat(amount),
+      paymentType: payment.paymentType,
+      reference: reference.trim(),
+      createdStaffId: payment.createdStaffId,
+      isDeleted: false,
+    };
 
-    paymentId: paymentId,
-    patientId: payment.patientId,
-    appointmentId: payment.appointmentId,
-    amount: parseFloat(amount),
-    paymentType: payment.paymentType,
-    createdStaffId: payment.createdStaffId,
-    status: status,
-    isDeleted: false,
-};
     paymentApi.put(`/payments/${paymentId}`, updated)
       .then(() => {
-        alert('Payment updated successfully');
+        alert('✅ Payment updated successfully');
         navigate('/payments');
       })
       .catch(err => {
         console.error('Update failed', err);
-        alert('Failed to update payment');
+        alert('❌ Failed to update payment');
       })
       .finally(() => {
         setIsUpdating(false);
+      });
+  };
+
+  const handleDelete = () => {
+    const confirm = window.confirm('Are you sure you want to delete this payment?');
+    if (!confirm) return;
+
+    paymentApi.delete(`/payments/${paymentId}`)
+      .then(() => {
+        alert('🗑️ Payment deleted successfully');
+        navigate('/payments');
+      })
+      .catch((err) => {
+        console.error('Delete failed', err);
+        alert('❌ Failed to delete payment');
       });
   };
 
@@ -85,37 +86,49 @@ export default function PaymentUpdate() {
   return (
     <div className="payment-update-container" style={{ padding: '2rem' }}>
       <h2>Payment ID: {paymentId}</h2>
-      <p>Patient ID: {payment.patientId}</p>
       <p>Appointment ID: {payment.appointmentId}</p>
       <p>Payment Type: {payment.paymentType}</p>
       <p>Date: {new Date(payment.date).toLocaleDateString()}</p>
       <p>Processed By: {payment.createdStaffId}</p>
       <p style={{ color: 'navy' }}>Current Amount: Rs. {payment.amount}</p>
-      <p style={{ color: 'navy' }}>Current Status: {payment.status}</p>
+
       <br />
+
       <label>Amount:</label>
-      <input 
+      <input
         type="number"
-        step="100.00"
+        step="0.01"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
       />
 
       <br /><br />
 
-      <label>Status:</label>
-      <select value={status} onChange={(e) => setStatus(e.target.value)}>
-        {statusOptions.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
+      <label>Reference:</label>
+      <input
+        type="text"
+        value={reference}
+        onChange={(e) => setReference(e.target.value)}
+      />
 
       <br /><br />
 
       <button onClick={handleUpdate} disabled={isUpdating}>
         {isUpdating ? 'Updating...' : 'Submit Update'}
+      </button>
+
+      <button
+        onClick={handleDelete}
+        style={{
+          marginLeft: '10px',
+          backgroundColor: 'red',
+          color: 'white',
+          border: 'none',
+          padding: '6px 12px',
+          cursor: 'pointer',
+        }}
+      >
+        Refund Payment
       </button>
     </div>
   );

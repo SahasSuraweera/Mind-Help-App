@@ -15,6 +15,7 @@ import CounsellorList from './components/CounsellorList';
 import CounsellorSchedule from './components/CounsellorSchedule';
 import AppointmentCreate from './components/AppointmentCreate';
 import AppointmentList from './components/AppointmentList';
+import Appointment from './components/Appointment';
 
 import './styles/App.css';
 
@@ -48,12 +49,13 @@ function App() {
             <Route path="/patients/:id/records/new" element={<RecordForm />} />
             <Route path="/patients/:id/records" element={<RecordListWrapper />} />
             <Route path="/appointments" element={<AppointmentList />} />
-            <Route path="/payments/new" element={<PaymentCreate />} />
+            <Route path="/payments/appointment/:appointmentId" element={<PaymentCreate />} />
             <Route path="/payments" element={<PaymentList />} />
             <Route path="/payments/update/:paymentId" element={<PaymentUpdate />} />
             <Route path="/counsellors" element={<CounsellorList />} />
             <Route path="/counsellors/schedule/:counsellorId" element={<CounsellorSchedule />} />
             <Route path="/appointments/create/:counsellorId" element={<AppointmentCreate />} />
+            <Route path="/appointments/:appointmentId" element={<Appointment />} />
           </Routes>
         </main>
         <footer className="app-footer">

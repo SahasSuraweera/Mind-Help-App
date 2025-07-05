@@ -36,15 +36,18 @@ public class PaymentService {
         Optional<Payment> pay = paymentRepo.findById(paymentId);
         if (pay.isPresent()) {
             Payment payment = pay.get();
-            paymentRepo.deleteById(paymentId);
+            paymentRepo.softDeletePayment(paymentId);
             return payment;
         }
         return null;
     }
 
-    public List<String> getPaymentStatuses() {
-        return paymentRepo.findDistinctStatuses();
-    }
+    //public List<String> getPaymentStatuses() {
+        //return paymentRepo.findDistinctStatuses();
+    //}
 
+    public List<Payment> getPaymentsByAppointmentId(Long appointmentId) {
+        return paymentRepo.findAllByAppointmentId(appointmentId);
+    }
 
 }

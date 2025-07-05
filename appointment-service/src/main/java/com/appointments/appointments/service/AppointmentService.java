@@ -1,5 +1,6 @@
 package com.appointments.appointments.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,19 @@ public class AppointmentService {
         return appointmentRepo.save(appointment);
     }
 
+    public Appointment getAppointmentById(int appointmentId) {
+        return appointmentRepo.findById(appointmentId).orElse(null);
+    }
 
+    @Transactional
+    public boolean updateAppointmentStatus(int appointmentId, String status) {
+        int rowsUpdated = appointmentRepo.updateAppointmentStatus(status, appointmentId);
+        return rowsUpdated > 0;
+    }
+
+    public boolean deleteById(int appointmentId) {
+        return  appointmentRepo.softDeleteAppointment(appointmentId) > 0;
+    }
 
 }
 

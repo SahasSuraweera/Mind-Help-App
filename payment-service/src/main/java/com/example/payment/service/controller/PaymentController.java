@@ -40,11 +40,15 @@ public class PaymentController {
     public Payment deletePaymentById(@PathVariable int paymentId) {
         return paymentService.deletePaymentById(paymentId);
     }
-    @GetMapping("/statuses")
-    public List<String> getPaymentStatuses() {
-        return paymentService.getPaymentStatuses();
-    }
+    //@GetMapping("/statuses")
+    //public List<String> getPaymentStatuses() {
+        //return paymentService.getPaymentStatuses();
+    //}
 
+    @GetMapping("/appointment/{appointmentId}")
+    public List<Payment> getPaymentsByAppointment(@PathVariable Long appointmentId) {
+        return paymentService.getPaymentsByAppointmentId(appointmentId);
+    }
 }
 
 

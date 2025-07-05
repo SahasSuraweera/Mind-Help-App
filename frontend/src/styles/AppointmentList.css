@@ -22,7 +22,7 @@ table {
 }
 
 thead {
-  background-color: #4CAF50;
+  background-color: #4c98af;
   color: white;
 }
 
@@ -36,8 +36,21 @@ tbody tr:hover {
   background-color: #f1f1f1;
 }
 
+/* SearchBar.css */
+.search-input-container {
+  margin-bottom: 15px;
+}
+
+.search-input {
+  padding: 8px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
 button {
-  background-color: #4CAF50;
+  background-color: #4c74af;
   border: none;
   color: white;
   padding: 8px 14px;

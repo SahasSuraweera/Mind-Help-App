@@ -73,7 +73,8 @@ export default function CreateAppointment() {
     <div className="create-appointment-container">
       <div className="appointment-card">
       <h2>📅 Book Appointment</h2>
-      <p><strong>Counsellor Name:</strong> {displayName}</p>
+      <p><strong>CounsellorID:</strong> {counsellorId}</p>
+      <p><strong>Name:</strong> {displayName}</p>
       <p><strong>Date:</strong> {slotDate}</p>
       <p><strong>Time Slot:</strong> {slotTime}</p>
       <p><strong>Appointment Fee:</strong> Rs. {hourlyRate}</p>
