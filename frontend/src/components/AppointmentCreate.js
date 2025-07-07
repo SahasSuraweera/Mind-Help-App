@@ -58,7 +58,7 @@ export default function CreateAppointment() {
 
     try {
       await appointmentApi.post('/appointments', appointmentData);
-      await staffApi.put(`/schedules/${slotId}`);
+      await staffApi.put(`/schedules/book/${slotId}`);
       alert(`✅ Appointment booked!\n\n👤 ${patientName}\n📅 ${slotDate}\n🕒 ${slotTime}\n👨‍⚕️ ${displayName}\n💰 Rs. ${hourlyRate}`);
       navigate('/appointments');
     } catch (error) {

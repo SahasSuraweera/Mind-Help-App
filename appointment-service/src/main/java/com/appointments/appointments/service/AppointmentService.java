@@ -28,6 +28,10 @@ public class AppointmentService {
         return appointmentRepo.findById(appointmentId).orElse(null);
     }
 
+    public Appointment updateAppointment (Appointment updatedAppointment) {
+        return appointmentRepo.save(updatedAppointment);
+    }
+
     @Transactional
     public boolean updateAppointmentStatus(int appointmentId, String status) {
         int rowsUpdated = appointmentRepo.updateAppointmentStatus(status, appointmentId);

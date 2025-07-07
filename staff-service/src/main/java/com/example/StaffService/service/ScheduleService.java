@@ -22,4 +22,9 @@ public class ScheduleService {
         int updated = scheduleRepository.updateSlotBookedStatus(slotId);
         return updated > 0 ? "Slot marked as booked." : "Slot not found or already booked.";
     }
+
+    public String cancelSlotById(int slotId) {
+        int updated = scheduleRepository.cancelSlotBookedStatus(slotId);
+        return updated > 0 ? "Slot marked as not booked." : "Slot not found or already booked.";
+    }
 }

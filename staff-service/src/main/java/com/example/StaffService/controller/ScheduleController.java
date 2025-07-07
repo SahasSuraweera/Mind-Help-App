@@ -25,9 +25,14 @@ public class ScheduleController {
         return scheduleService.getAvailableSlots(counsellorId, slotDate);
     }
 
-    @PutMapping("{slotId}")
-    public String updateScheduleBySlotID (@PathVariable int slotId) {
+    @PutMapping("book/{slotId}")
+    public String bookScheduleBySlotID (@PathVariable int slotId) {
         return scheduleService.updateSlotById(slotId);
+    }
+
+    @PutMapping("cancel/{slotId}")
+    public String cancelScheduleBySlotID (@PathVariable int slotId) {
+        return scheduleService.cancelSlotById(slotId);
     }
 }
 

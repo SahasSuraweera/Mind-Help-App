@@ -15,7 +15,7 @@ import CounsellorList from './components/CounsellorList';
 import CounsellorSchedule from './components/CounsellorSchedule';
 import AppointmentCreate from './components/AppointmentCreate';
 import AppointmentList from './components/AppointmentList';
-import Appointment from './components/Appointment';
+import AppointmentUpdate from './components/AppointmentUpdate';
 
 import './styles/App.css';
 
@@ -55,7 +55,7 @@ function App() {
             <Route path="/counsellors" element={<CounsellorList />} />
             <Route path="/counsellors/schedule/:counsellorId" element={<CounsellorSchedule />} />
             <Route path="/appointments/create/:counsellorId" element={<AppointmentCreate />} />
-            <Route path="/appointments/:appointmentId" element={<Appointment />} />
+            <Route path="/appointment/update/:appointmentId" element={<AppointmentUpdate />} />
           </Routes>
         </main>
         <footer className="app-footer">

@@ -32,7 +32,11 @@ export default function AppointmentListPage() {
         },
       });
     } else if (action === 'view') {
-      navigate(`/appointments/${appointment.appointmentId}`);
+      navigate(`/appointment/update/${appointment.appointmentId}`, {
+        state: {
+          slotId: appointment.slotId, 
+        },
+      });
     }
   };
 

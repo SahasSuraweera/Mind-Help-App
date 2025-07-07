@@ -86,7 +86,7 @@ export default function PaymentList() {
                 <td>
                   <button
                     className="btn-update"
-                    onClick={() => navigate(`/appointments/update/${payment.appointmentId}`)}
+                    onClick={() => navigate(`/payments/update/${payment.paymentId}`)}
                   >
                     Update
                   </button>

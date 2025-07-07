@@ -21,4 +21,9 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     @Transactional
     @Query("UPDATE Schedule s SET s.isBooked = true WHERE s.slotId = :slotId")
     int updateSlotBookedStatus(@Param("slotId") int slotId);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Schedule s SET s.isBooked = false WHERE s.slotId = :slotId")
+    int cancelSlotBookedStatus(@Param("slotId") int slotId);
 }
