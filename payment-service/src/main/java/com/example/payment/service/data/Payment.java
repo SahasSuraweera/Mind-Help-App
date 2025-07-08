@@ -3,21 +3,16 @@ package com.example.payment.service.data;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "payment")
 public class Payment {
 
     @Id
-    @Column(name = "payment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "payment_id")
     private int paymentId;
-
-    @Column(name = "patient_id")
-    private int patientId;
 
     @Column(name = "appointment_id")
     private int appointmentId;
@@ -28,31 +23,29 @@ public class Payment {
     @Column(name = "payment_type")
     private String paymentType;
 
-    @Column(name = "date", insertable = false, updatable = false)
+    @Column(name = "reference")
+    private String reference;
+
+    @Column(name = "date", nullable = false, updatable = false)
     private LocalDate date;
 
-    @Column(name = "created_at", insertable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalTime createdAt;
 
     @Column(name = "created_staff_id")
     private Integer createdStaffId;
 
-    @Column(name = "status")
-    private String status;
-
     @Column(name = "is_Deleted")
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
+
+    // Getters and Setters
 
     public int getPaymentId() {
         return paymentId;
     }
 
-    public int getPatientId() {
-        return patientId;
-    }
-
-    public void setPatientId(int patientId) {
-        this.patientId = patientId;
+    public void setPaymentId(int paymentId) {
+        this.paymentId = paymentId;
     }
 
     public int getAppointmentId() {
@@ -61,10 +54,6 @@ public class Payment {
 
     public void setAppointmentId(int appointmentId) {
         this.appointmentId = appointmentId;
-    }
-
-    public void setPaymentID(int paymentId) {
-        this.paymentId = paymentId;
     }
 
     public float getAmount() {
@@ -81,6 +70,14 @@ public class Payment {
 
     public void setPaymentType(String paymentType) {
         this.paymentType = paymentType;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
     public LocalDate getDate() {
@@ -104,7 +101,6 @@ public class Payment {
     }
 
     public void setCreatedStaffId(Integer createdStaffId) {
-
         this.createdStaffId = createdStaffId;
     }
 
@@ -113,14 +109,6 @@ public class Payment {
     }
 
     public void setIsDeleted(Boolean isDeleted) {
-       this.isDeleted = isDeleted;
-    }
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+        this.isDeleted = isDeleted;
     }
 }
-

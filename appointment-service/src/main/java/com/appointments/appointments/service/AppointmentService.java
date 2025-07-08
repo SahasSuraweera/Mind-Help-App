@@ -1,7 +1,5 @@
 package com.appointments.appointments.service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,90 +7,41 @@ import org.springframework.stereotype.Service;
 
 import com.appointments.appointments.data.Appointment;
 import com.appointments.appointments.data.AppointmentRepository;
-import com.appointments.appointments.data.AppointmentSlot;
-import com.appointments.appointments.data.SlotRepository;
+
+import jakarta.transaction.Transactional;
 
 
 @Service
 public class AppointmentService {
-    @Autowired
-    private SlotRepository slotRepo;
-
-    public AppointmentSlot createSlot(AppointmentSlot slot) {
-        slot.setIsAvailable(true); //mark new slots as available
-        return slotRepo.save(slot);
-    }
-    public List<AppointmentSlot> getAvailableSlotsByDate(LocalDate date) {
-        return slotRepo.findByDateAndIsAvailableTrue(date);
-    }
-
-    public List<Appointment> getAllAppointments() {
-        return appointmentRepo.findAll();
-    }
-
-    public List<AppointmentSlot> getAvailableSlots() {
-    return slotRepo.findByIsAvailableTrue();
-}
 
     @Autowired
     private AppointmentRepository appointmentRepo;
 
-    public Appointment bookAppointment(int slotId, String feedback) {
-        // get slot
-        AppointmentSlot slot = slotRepo.findById(slotId)
-                .orElseThrow(() -> new RuntimeException("Slot not found"));
+    public List<Appointment> getAllAppointments() {
+        return appointmentRepo.findAllActiveAppointments();
+    }
 
-        if (!slot.getIsAvailable()) {
-            throw new RuntimeException("Slot already booked!");
-        }
-
-        // create appointment
-        Appointment appointment = new Appointment();
-        appointment.setSlot(slot);
-        appointment.setDate(slot.getDate());
-        appointment.setStartTime(slot.getSlotStartTime());
-        appointment.setEndTime(slot.getSlotEndTime());
-        appointment.setFeedback(feedback);
-
-        // mark slot as unavailable
-        slot.setIsAvailable(false);
-        slotRepo.save(slot);
-
+    public Appointment createAppointment(Appointment appointment) {
         return appointmentRepo.save(appointment);
     }
 
-    public Appointment cancelAppointment(int appointmentId) {
-        Appointment appt = appointmentRepo.findById(appointmentId)
-                .orElseThrow(() -> new RuntimeException("Appointment not found"));
-
-        appt.setCancelled(true);
-
-        AppointmentSlot slot = appt.getSlot();
-        slot.setIsAvailable(true);
-
-        slotRepo.save(slot);
-        return appointmentRepo.save(appt);
+    public Appointment getAppointmentById(int appointmentId) {
+        return appointmentRepo.findById(appointmentId).orElse(null);
     }
 
-    public List<AppointmentSlot> findAvailableStartSlots(int counsellorId, String dateStr, int durationMinutes) {
-        LocalDate date = LocalDate.parse(dateStr);
-        List<AppointmentSlot> allSlots = slotRepo.findByCounsellorIdAndDateOrderBySlotStartTime(counsellorId, date);
-
-        int requiredSlotCount = durationMinutes / 30;
-        List<AppointmentSlot> validStartSlots = new ArrayList<>();
-
-        for (int i = 0; i <= allSlots.size() - requiredSlotCount; i++) {
-            List<AppointmentSlot> window = allSlots.subList(i, i + requiredSlotCount);
-
-            boolean allAvailable = window.stream().allMatch(AppointmentSlot::getIsAvailable);
-
-            if (allAvailable) {
-                validStartSlots.add(window.get(0)); //only add the first slot as start option
-            }
-        }
-
-        return validStartSlots;
+    public Appointment updateAppointment (Appointment updatedAppointment) {
+        return appointmentRepo.save(updatedAppointment);
     }
-    
+
+    @Transactional
+    public boolean updateAppointmentStatus(int appointmentId, String status) {
+        int rowsUpdated = appointmentRepo.updateAppointmentStatus(status, appointmentId);
+        return rowsUpdated > 0;
+    }
+
+    public boolean deleteById(int appointmentId) {
+        return  appointmentRepo.softDeleteAppointment(appointmentId) > 0;
+    }
+
 }
 

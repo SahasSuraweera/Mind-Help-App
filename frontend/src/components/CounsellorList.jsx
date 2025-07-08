@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import staffApi from '../services/staffApi'; // axios instance for backend calls
-import '../styles/Payment.css'; // Use your styles or create a Counsellor.css
-import { useNavigate } from 'react-router-dom'; // For navigation
+import staffApi from '../services/staffApi';
+import '../styles/Payment.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function CounsellorList() {
   const navigate = useNavigate();
@@ -10,7 +10,6 @@ export default function CounsellorList() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-
     staffApi.get('/counsellors')
       .then(res => {
         setCounsellors(res.data);
@@ -47,7 +46,19 @@ export default function CounsellorList() {
                 <p>Hourly Rate: Rs. {counsellor.hourlyRate}</p>
 
                 <div className="card-buttons">
-                  <button className="btn-update" onClick={() => navigate(`/counsellors/schedule/${counsellor.counsellorId}`)}>Book Now</button>
+                  <button
+                    className="btn-update"
+                    onClick={() =>
+                      navigate(`/counsellors/schedule/${counsellor.counsellorId}`, {
+                        state: {
+                          displayName: counsellor.displayName,
+                          hourlyRate: counsellor.hourlyRate,
+                        }
+                      })
+                    }
+                  >
+                    Book Now
+                  </button>
                 </div>
               </div>
             </div>

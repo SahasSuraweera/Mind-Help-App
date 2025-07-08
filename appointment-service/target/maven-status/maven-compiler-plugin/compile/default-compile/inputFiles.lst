@@ -1,12 +1,5 @@
-C:\Users\pavani\Mind-Help-App\appointment-service\src\main\java\com\appointments\appointments\AppointmentsApplication.java
-C:\Users\pavani\Mind-Help-App\appointment-service\src\main\java\com\appointments\appointments\controller\AppointmentController.java
-C:\Users\pavani\Mind-Help-App\appointment-service\src\main\java\com\appointments\appointments\controller\CounsellorAvailabilityController.java
-C:\Users\pavani\Mind-Help-App\appointment-service\src\main\java\com\appointments\appointments\controller\SlotController.java
-C:\Users\pavani\Mind-Help-App\appointment-service\src\main\java\com\appointments\appointments\data\Appointment.java
-C:\Users\pavani\Mind-Help-App\appointment-service\src\main\java\com\appointments\appointments\data\AppointmentRepository.java
-C:\Users\pavani\Mind-Help-App\appointment-service\src\main\java\com\appointments\appointments\data\AppointmentSlot.java
-C:\Users\pavani\Mind-Help-App\appointment-service\src\main\java\com\appointments\appointments\data\CounsellorAvailability.java
-C:\Users\pavani\Mind-Help-App\appointment-service\src\main\java\com\appointments\appointments\data\CounsellorAvailabilityRepository.java
-C:\Users\pavani\Mind-Help-App\appointment-service\src\main\java\com\appointments\appointments\data\SlotRepository.java
-C:\Users\pavani\Mind-Help-App\appointment-service\src\main\java\com\appointments\appointments\service\AppointmentService.java
-C:\Users\pavani\Mind-Help-App\appointment-service\src\main\java\com\appointments\appointments\service\CounsellorAvailabilityService.java
+C:\DDrive\www\Mind-Help-App\appointment-service\src\main\java\com\appointments\appointments\AppointmentsApplication.java
+C:\DDrive\www\Mind-Help-App\appointment-service\src\main\java\com\appointments\appointments\controller\AppointmentController.java
+C:\DDrive\www\Mind-Help-App\appointment-service\src\main\java\com\appointments\appointments\data\Appointment.java
+C:\DDrive\www\Mind-Help-App\appointment-service\src\main\java\com\appointments\appointments\data\AppointmentRepository.java
+C:\DDrive\www\Mind-Help-App\appointment-service\src\main\java\com\appointments\appointments\service\AppointmentService.java

@@ -4,14 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.appointments.appointments.data.Appointment;
 import com.appointments.appointments.service.AppointmentService;
@@ -22,24 +15,48 @@ import com.appointments.appointments.service.AppointmentService;
 public class AppointmentController {
 
     @Autowired
-    private AppointmentService service;
-
-    @PostMapping("/book")
-    public Appointment bookAppointment(@RequestBody Map<String, String> request) {
-        int slotId = Integer.parseInt(request.get("slotId"));
-        String feedback = request.getOrDefault("feedback", "");
-        return service.bookAppointment(slotId, feedback);
-    }
+    private AppointmentService appointmentService;
 
     @GetMapping
-    public List<Appointment> getAppointments() {
-        return service.getAllAppointments();
+    public List<Appointment> getAllAppointments() {
+        return appointmentService.getAllAppointments();
     }
 
-    @PutMapping("/{id}/cancel")
-    public Appointment cancelAppointment(@PathVariable int id) {
-        return service.cancelAppointment(id);
+    @PostMapping
+    public Appointment bookAppointment(@RequestBody Appointment appointment) {
+        return appointmentService.createAppointment(appointment);
     }
 
+    @GetMapping("/{appointmentId}")
+    public Appointment getAppointmentById(@PathVariable int appointmentId){
+        return appointmentService.getAppointmentById(appointmentId);
+    }
+
+    @PutMapping("/{appointmentId}")
+    public Appointment updateAppointment(@RequestBody Appointment updatedAppointment) {
+
+        return appointmentService.updateAppointment(updatedAppointment);
+    }
+
+
+
+    @PutMapping("/{appointmentId}/status")
+    public String updateStatus(
+            @PathVariable int appointmentId,
+            @RequestParam String status
+    ) {
+        boolean updated = appointmentService.updateAppointmentStatus(appointmentId, status);
+        if (updated) {
+            return "Appointment status updated to: " + status;
+        } else {
+            return "Failed to update status. Appointment not found.";
+        }
+    }
+
+    @DeleteMapping("/{appointmentId}")
+    public String deleteAppointment(@PathVariable int appointmentId) {
+        boolean deleted = appointmentService.deleteById(appointmentId);
+        return deleted ? "Appointment Cancelled" : "Appointment not found";
+    }
 
 }
