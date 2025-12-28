@@ -9,6 +9,9 @@ export default function CreatePayment() {
   const location = useLocation();
 
   const appointmentId = location.state?.appointmentId;
+  const patientId = location.state?.patientId;
+  const patientName = location.state?.patientName;
+  const patientPhone = location.state?.patientPhone;
   const amount = location.state?.amount;
 
   const [paymentType, setPaymentType] = useState('cash');
@@ -19,7 +22,7 @@ export default function CreatePayment() {
   const [currentDate, setCurrentDate] = useState('');
   const [currentTime, setCurrentTime] = useState('');
 
-  const createdStaffId = 3;
+  const createdStaffId = sessionStorage.getItem("staffId");;
 
   useEffect(() => {
     if (!appointmentId || !amount) {
@@ -43,20 +46,23 @@ setCurrentTime(sriLankaTime);
 
     const paymentPayload = {
       appointmentId: parseInt(appointmentId),
+      patientId: patientId ? parseInt(patientId) : null,
+      patientName: patientName,
+      phone: patientPhone,
       amount: parseFloat(amount),
       paymentType,
       reference,
       date: currentDate,
       createdAt: currentTime,
       createdStaffId,
-      isDeleted: false
+      deleted: false
     };
 
     try {
       setIsSubmitting(true);
       await paymentApi.post('/payments', paymentPayload);
-      await appointmentApi.put(`/appointments/${appointmentId}/status`, null, {
-      params: { status: 'completed' }
+      await appointmentApi.put(`/appointments/${appointmentId}/paymentStatus`, null, {
+      params: { paymentStatus: 'completed' }
       });
       alert('✅ Payment created successfully!');
       navigate('/payments');
@@ -96,7 +102,6 @@ setCurrentTime(sriLankaTime);
             required
           >
             <option value="cash">Cash</option>
-            <option value="online">Online</option>
             <option value="pos">POS</option>
             <option value="bank transfer">Bank Transfer</option>
           </select>
@@ -116,6 +121,11 @@ setCurrentTime(sriLankaTime);
           {isSubmitting ? 'Creating...' : 'Create Payment'}
         </button>
       </form>
+      <button className="back-button" onClick={() => window.history.back()}>
+        ⬅ Back
+      </button>
     </div>
+    
   );
+
 }

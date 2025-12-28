@@ -2,6 +2,7 @@ package com.example.payment.service.service;
 
 import com.example.payment.service.data.Payment;
 import com.example.payment.service.data.PaymentRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,42 +13,36 @@ import java.util.Optional;
 public class PaymentService {
 
     @Autowired
-    private PaymentRepository paymentRepo;
+    private PaymentRepository paymentRepository;
 
     public List<Payment> getAllPayments() {
-        //from JPA repository
-        return paymentRepo.findAll();
+        return paymentRepository.findAllPayments();
     }
 
     public Payment getPaymentById(int paymentId) {
-        Optional<Payment> pay = paymentRepo.findById(paymentId);
-        return pay.orElse(null);
+       return paymentRepository.findAllByPaymentId(paymentId);
+
+    }
+
+    public List<Payment> getPaymentsByAppointmentId(int appointmentId) {
+        return paymentRepository.findAllByAppointmentId(appointmentId);
+    }
+
+    public List<Payment> getPaymentsByPatientId(int patientId) {
+        return paymentRepository.findAllByPatientId(patientId);
     }
 
     public Payment createPayment(Payment payment) {
-        return paymentRepo.save(payment);
+        return paymentRepository.save(payment);
     }
 
-    public Payment updatePayment(Payment pay) {
-        return paymentRepo.save(pay);
+    public Payment updatePayment(Payment payment) {
+       return paymentRepository.save(payment);
     }
 
-    public Payment deletePaymentById(int paymentId) {
-        Optional<Payment> pay = paymentRepo.findById(paymentId);
-        if (pay.isPresent()) {
-            Payment payment = pay.get();
-            paymentRepo.softDeletePayment(paymentId);
-            return payment;
-        }
-        return null;
+    @Transactional
+    public Boolean deletePayment(int paymentId) {
+        return paymentRepository.softDeletePayment(paymentId) > 0;
+
     }
-
-    //public List<String> getPaymentStatuses() {
-        //return paymentRepo.findDistinctStatuses();
-    //}
-
-    public List<Payment> getPaymentsByAppointmentId(Long appointmentId) {
-        return paymentRepo.findAllByAppointmentId(appointmentId);
-    }
-
 }

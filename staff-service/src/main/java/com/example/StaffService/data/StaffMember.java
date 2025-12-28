@@ -14,9 +14,6 @@ public class StaffMember {
     @Column(name = "staff_id")
     private int staffId;
 
-    @Column(name = "user_id")
-    private int userId;
-
     @Column(name = "job_role")
     private String jobRole;
 
@@ -59,14 +56,6 @@ public class StaffMember {
 
     public void setStaffId(int staffId) {
         this.staffId = staffId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public String getJobRole() {

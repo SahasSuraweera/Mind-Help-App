@@ -19,35 +19,38 @@ public class PaymentController {
     @GetMapping
     public List<Payment> getAllPayments() {
         return paymentService.getAllPayments();
-        }
+    }
 
     @GetMapping("/{paymentId}")
     public Payment getPaymentById(@PathVariable int paymentId) {
         return paymentService.getPaymentById(paymentId);
     }
 
+
+    @GetMapping("/appointment/{appointmentId}")
+    public List<Payment> getPaymentsByAppointment(@PathVariable int appointmentId) {
+        return paymentService.getPaymentsByAppointmentId(appointmentId);
+    }
+
+    @GetMapping("/patient/{patientId}")
+    public List<Payment> getPaymentsByPatient(@PathVariable int patientId) {
+        return paymentService.getPaymentsByPatientId(patientId);
+    }
+
     @PostMapping
-    public Payment createPayment(@RequestBody Payment pay) {
+    public Payment createPaymentById(@RequestBody Payment pay) {
         return paymentService.createPayment(pay);
     }
 
     @PutMapping("/{paymentId}")
-    public Payment updatePayment(@RequestBody Payment pay) {
-        return paymentService.createPayment(pay);
+    public Payment updatePaymentById(@RequestBody Payment payment) {
+        return paymentService.updatePayment(payment);
     }
 
     @DeleteMapping("/{paymentId}")
-    public Payment deletePaymentById(@PathVariable int paymentId) {
-        return paymentService.deletePaymentById(paymentId);
-    }
-    //@GetMapping("/statuses")
-    //public List<String> getPaymentStatuses() {
-        //return paymentService.getPaymentStatuses();
-    //}
-
-    @GetMapping("/appointment/{appointmentId}")
-    public List<Payment> getPaymentsByAppointment(@PathVariable Long appointmentId) {
-        return paymentService.getPaymentsByAppointmentId(appointmentId);
+    public String deletePaymentById(@PathVariable int paymentId) {
+       Boolean deleted = paymentService.deletePayment(paymentId);
+       return deleted ? "Payment refunded" : "Payment not found";
     }
 }
 

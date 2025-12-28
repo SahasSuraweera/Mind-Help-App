@@ -29,9 +29,12 @@ export default function AppointmentListPage() {
         state: {
           appointmentId: appointment.appointmentId,
           amount: appointment.appointmentFee,
+          patientId: appointment.patientId ?? null, 
+          patientName: appointment.patientName,
+          patientPhone: appointment.contactNumber,
         },
       });
-    } else if (action === 'view') {
+    } else if (action === 'update') {
       navigate(`/appointment/update/${appointment.appointmentId}`, {
         state: {
           slotId: appointment.slotId, 
@@ -66,23 +69,21 @@ export default function AppointmentListPage() {
 
   return (
     <div className="appointment-list-container">
-      <h2>📋 Appointments</h2>
-
-      <div style={{ marginBottom: '10px' }}>
+      <h2>Appointments Details</h2>
+    <div className="filter-buttons">
         <button
           onClick={() => setFilter('upcoming')}
           disabled={filter === 'upcoming'}
         >
           Upcoming
         </button>
-        <button
+        <button className='past-button'
           onClick={() => setFilter('past')}
-          disabled={filter === 'past'}
-          style={{ marginLeft: '10px' }}
+          disabled={filter === 'past'} 
         >
           Past
-        </button>
-      </div>
+        </button>  
+    </div>
 
       <div className="search-input-container">
         <input
@@ -100,10 +101,11 @@ export default function AppointmentListPage() {
         <table border="1" cellPadding="10">
           <thead>
             <tr>
+              <th>ID</th>
               <th>Date</th>
               <th>Time</th>
               <th>Counsellor</th>
-              <th>ID</th>
+              <th>Patient ID</th>
               <th>Patient Name</th>
               <th>Contact</th>
               <th>Fee</th>
@@ -114,17 +116,18 @@ export default function AppointmentListPage() {
           <tbody>
             {filteredAppointments.map((a) => (
               <tr key={a.appointmentId}>
+                <td>{a.appointmentId}</td>
                 <td>{a.appointmentDate}</td>
                 <td>{a.appointmentTime}</td>
                 <td>{a.counsellorId}</td>
-                <td>{a.appointmentId}</td>
+                <td>{a.patientId ?? 'N/A'}</td>
                 <td>{a.patientName}</td>
                 <td>{a.contactNumber}</td>
                 <td>Rs. {a.appointmentFee}</td>
                 <td>
-  {(a.status !== 'Pending') && <span>{a.status}</span>}
+  {(a.paymentStatus !== 'Pending') && <span>{a.paymentStatus}</span>}
 
-  {a.status === 'Pending' && (
+  {a.paymentStatus === 'Pending' && (
     <button
       onClick={() => handlePaymentClick(a, 'pay')}
       style={{ marginLeft: '10px' }}
@@ -134,8 +137,8 @@ export default function AppointmentListPage() {
   )}
 </td>
                 <td>
-                  <button onClick={() => handlePaymentClick(a, 'view')}>
-                    View More
+                  <button onClick={() => handlePaymentClick(a, 'update')}>
+                    View
                   </button>
                 </td>
               </tr>

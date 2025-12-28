@@ -3,7 +3,9 @@ package com.example.patient.data;
 import java.util.*;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface PatientRepository extends JpaRepository<Patient, Integer> {
 
     // Custom query to find patients by name

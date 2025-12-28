@@ -29,6 +29,9 @@ public class Appointment {
     @Column(name = "appointment_fee")
     private float appointmentFee;
 
+    @Column(name = "patient_id")
+    private String patientId;
+
     @Column(name = "patient_name")
     private String patientName;
 
@@ -38,8 +41,8 @@ public class Appointment {
     @Column(name = "notes")
     private String notes;
 
-    @Column(name = "status")
-    private String status;
+    @Column(name = "payment_status")
+    private String paymentStatus;
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
@@ -92,6 +95,14 @@ public class Appointment {
         this.appointmentFee = appointmentFee;
     }
 
+    public String getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
+    }
+
     public String getPatientName() {
         return patientName;
     }
@@ -116,12 +127,12 @@ public class Appointment {
         this.notes = notes;
     }
 
-    public String getStatus() {
-        return status;
+    public String getPaymentStatus() {
+        return paymentStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
     public boolean isDeleted() {

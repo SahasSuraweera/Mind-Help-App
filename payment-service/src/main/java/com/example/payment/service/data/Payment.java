@@ -17,6 +17,15 @@ public class Payment {
     @Column(name = "appointment_id")
     private int appointmentId;
 
+    @Column(name = "patient_id")
+    private Integer patientId;
+
+    @Column(name = "patient_name")
+    private String patientName;
+
+    @Column(name = "phone")
+    private String phone;
+
     @Column(name = "amount")
     private float amount;
 
@@ -35,8 +44,8 @@ public class Payment {
     @Column(name = "created_staff_id")
     private Integer createdStaffId;
 
-    @Column(name = "is_Deleted")
-    private Boolean isDeleted = false;
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
 
     // Getters and Setters
 
@@ -54,6 +63,30 @@ public class Payment {
 
     public void setAppointmentId(int appointmentId) {
         this.appointmentId = appointmentId;
+    }
+
+    public Integer getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(Integer patientId) {
+        this.patientId = patientId;
+    }
+
+    public String getPatientName() {
+        return patientName;
+    }
+
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public float getAmount() {
@@ -104,11 +137,11 @@ public class Payment {
         this.createdStaffId = createdStaffId;
     }
 
-    public Boolean getIsDeleted() {
+    public Boolean getDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(Boolean isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 }

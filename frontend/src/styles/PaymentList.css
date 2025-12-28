@@ -1,22 +1,15 @@
 .payment-list-container {
   padding: 2rem;
   font-family: Arial, sans-serif;
+  background-color: #ffffff;
 }
 
 .payment-list-heading {
   margin-bottom: 1rem;
   color: #333;
-  text-align: center;
+  text-align: left;
 }
 
-.search-bar {
-  width: 100%;
-  max-width: 300px;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
 
 .payment-table {
   width: 100%;
@@ -48,8 +41,37 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  max-width: 80px;
 }
 
 .btn-update:hover {
   background-color: #0056b3;
 }
+
+.filter-section {
+  display: flex;
+  gap: 12px;
+  max-width: 500px;
+  justify-content:left;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: #020202;
+}
+
+.filter-section select,
+.filter-section input {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #141414;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s ease-in-out;
+  background-color: #ffffff;
+}
+
+.filter-section select:focus,
+.filter-section input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.2);
+}
+

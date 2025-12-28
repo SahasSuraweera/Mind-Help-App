@@ -22,5 +22,9 @@ public class CounsellorService {
         return counsellorRepository.findById(counsellorId).orElse(null);
     }
 
+    public Counsellor findByStaffId(int staffId) {
+        return counsellorRepository.findByStaffId(staffId);
+    }
+
 
 }

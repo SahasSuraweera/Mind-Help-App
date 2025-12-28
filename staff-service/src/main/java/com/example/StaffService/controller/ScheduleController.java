@@ -24,6 +24,10 @@ public class ScheduleController {
 
         return scheduleService.getAvailableSlots(counsellorId, slotDate);
     }
+    @PostMapping
+    public String saveSchedules(@RequestBody List<Schedule> schedules) {
+        return scheduleService.saveSchedules(schedules);
+    }
 
     @PutMapping("book/{slotId}")
     public String bookScheduleBySlotID (@PathVariable int slotId) {

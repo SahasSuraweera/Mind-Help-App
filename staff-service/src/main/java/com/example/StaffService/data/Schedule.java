@@ -28,9 +28,6 @@ public class Schedule {
     @Column(name = "is_booked")
     private boolean isBooked = false;
 
-    // Constructors
-    public Schedule() {}
-
     // Getters and Setters
     public int getSlotId() {
         return slotId;

@@ -88,7 +88,6 @@ CREATE TABLE payment (
     date DATE NOT NULL,
     created_at TIME NOT NULL,
     created_staff_id INT NULL,
-    status ENUM('Pending', 'Processing', 'Completed', 'Failure', 'Refunded') DEFAULT NULL,
     is_Deleted BOOLEAN DEFAULT 0
 );
 

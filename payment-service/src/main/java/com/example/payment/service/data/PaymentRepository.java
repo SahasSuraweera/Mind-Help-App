@@ -12,16 +12,21 @@ import java.util.List;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 
-    //@Query("SELECT DISTINCT p.status FROM Payment p")
-    //List<String> findDistinctStatuses();
+      @Query("SELECT p FROM Payment p WHERE p.isDeleted = false")
+      List<Payment> findAllPayments();
 
-    @Query("SELECT p FROM Payment p WHERE p.appointmentId = :appointmentId AND p.isDeleted = false")
-    List<Payment> findAllByAppointmentId(Long appointmentId);
+      @Query("SELECT p FROM Payment p WHERE p.paymentId = :paymentId AND p.isDeleted = false")
+      Payment findAllByPaymentId(int paymentId);
 
-    @Modifying
-    @Transactional
-    @Query("UPDATE Payment p SET p.isDeleted = true WHERE p.paymentId = :paymentId")
-    int softDeletePayment(@Param("paymentId") int paymentId);
+      @Query("SELECT p FROM Payment p WHERE p.appointmentId = :appointmentId AND p.isDeleted = false")
+      List<Payment> findAllByAppointmentId(int appointmentId);
 
+      @Query("SELECT p FROM Payment p WHERE p.patientId = :patientId AND p.isDeleted = false")
+      List<Payment> findAllByPatientId(int patientId);
+
+      @Modifying
+      @Transactional
+      @Query("UPDATE Payment p SET p.isDeleted = true WHERE p.paymentId = :paymentId")
+      int softDeletePayment(@Param("paymentId") int paymentId);
 }
 

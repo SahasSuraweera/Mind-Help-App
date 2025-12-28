@@ -39,15 +39,14 @@ public class AppointmentController {
     }
 
 
-
-    @PutMapping("/{appointmentId}/status")
+    @PutMapping("/{appointmentId}/paymentStatus")
     public String updateStatus(
             @PathVariable int appointmentId,
-            @RequestParam String status
+            @RequestParam String paymentStatus
     ) {
-        boolean updated = appointmentService.updateAppointmentStatus(appointmentId, status);
+        boolean updated = appointmentService.updateAppointmentStatus(appointmentId, paymentStatus);
         if (updated) {
-            return "Appointment status updated to: " + status;
+            return "Appointment status updated to: " + paymentStatus;
         } else {
             return "Failed to update status. Appointment not found.";
         }

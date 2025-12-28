@@ -15,8 +15,8 @@ public class StaffMemberService {
     @Autowired
     private StaffMemberRepository staffMemberRepository;
 
-    public List<StaffMember> getAllStaff() {
-        return staffMemberRepository.findAll();
+    public List<StaffMember> getAllActiveStaff() {
+        return staffMemberRepository.findByIsDeletedFalse();
     }
 
     public StaffMember getStaffById(int id) {
@@ -35,6 +35,14 @@ public class StaffMemberService {
         staffMemberRepository.deleteById((int) id);
 
 
+    }
+
+    public void softDeleteStaff(int staffId) {
+        StaffMember staff = staffMemberRepository.findById(staffId)
+                .orElseThrow(() -> new RuntimeException("Staff not found"));
+
+        staff.setDeleted(true);
+        staffMemberRepository.save(staff);
     }
 
 }

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import appointmentApi from '../services/appointmentApi';
 import staffApi from '../services/staffApi';
+import patientApi from '../services/patientApi';
 import '../styles/AppointmentCreate.css';
 
 export default function CreateAppointment() {
@@ -9,7 +11,6 @@ export default function CreateAppointment() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Destructure safely from location.state
   const {
     slotId,
     slotDate,
@@ -18,15 +19,33 @@ export default function CreateAppointment() {
     displayName
   } = location.state || {};
 
+  const [patientId, setPatientId] = useState('');
   const [patientName, setPatientName] = useState('');
   const [contactNumber, setContactNumber] = useState('');
   const [notes, setNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Prevent form submission if details missing
+  useEffect(() => {
+    if (patientId.trim() !== '') {
+      patientApi.get(`/patients/${patientId}`)
+        .then(res => {
+          setPatientName(res.data.name);
+          setContactNumber(res.data.phone || '');
+        })
+        .catch(err => {
+          console.error("Cannot fetch patient details:", err);
+        });
+    } else {
+      setPatientName('');
+      setContactNumber('');
+    }
+  }, [patientId]);
+
+  
   if (!counsellorId || !slotId || !slotDate || !slotTime || !hourlyRate) {
     return <p>❌ Missing appointment details. Please go back and select a valid slot.</p>;
   }
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,10 +68,11 @@ export default function CreateAppointment() {
       appointmentDate: slotDate,
       appointmentTime: slotTime,
       appointmentFee: hourlyRate,
+      patientId: patientId ? parseInt(patientId) : null,
       patientName: patientName,
       contactNumber: contactNumber,
       notes: notes,
-      status: 'Pending',
+      paymentStatus: 'Pending',
       deleted: false,
     };
 
@@ -72,8 +92,8 @@ export default function CreateAppointment() {
   return (
     <div className="create-appointment-container">
       <div className="appointment-card">
-      <h2>📅 Book Appointment</h2>
-      <p><strong>CounsellorID:</strong> {counsellorId}</p>
+      <h2>Step 3 : Confirm Details</h2>
+      <p><strong>Counsellor ID:</strong> {counsellorId}</p>
       <p><strong>Name:</strong> {displayName}</p>
       <p><strong>Date:</strong> {slotDate}</p>
       <p><strong>Time Slot:</strong> {slotTime}</p>
@@ -81,12 +101,23 @@ export default function CreateAppointment() {
 
       <form onSubmit={handleSubmit} style={{ marginTop: '1rem' }}>
         <div>
+          <label htmlFor="patientId">Patient ID (optional) :</label><br />
+          <input
+            type="text"
+            id="patientId"
+            value={patientId}
+            onChange={(e) => setPatientId(e.target.value)}
+            placeholder="Enter patient ID if registered"
+          />
+        </div>
+        <div>
           <label htmlFor="patientName">Patient (or Guardian) Name :</label><br />
           <input
             type="text"
             id="patientName"
             value={patientName}
             onChange={(e) => setPatientName(e.target.value)}
+            placeholder="Enter patient or guardian name"
             required
           />
         </div>
@@ -112,6 +143,7 @@ export default function CreateAppointment() {
             rows="3"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
+            placeholder="Any additional notes or requirements"
           />
         </div>
 
@@ -120,6 +152,9 @@ export default function CreateAppointment() {
         </button>
       </form>
       </div>
+      <button className="back-button" onClick={() => window.history.back()}>
+        ⬅ Back
+      </button>
     </div>
   );
 }

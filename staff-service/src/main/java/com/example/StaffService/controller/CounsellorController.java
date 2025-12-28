@@ -24,5 +24,11 @@ public class CounsellorController {
     public Counsellor getCounsellorById(@PathVariable int counsellorId){
         return counsellorService.getCounsellorById(counsellorId);
     }
+    @GetMapping("staff")
+    public Counsellor getCounsellorByStaffId(@RequestParam int staffId) {
+        return counsellorService.findByStaffId(staffId);
+    }
+
+
 
 }

@@ -4,6 +4,8 @@ import com.example.StaffService.data.Schedule;
 import com.example.StaffService.data.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,6 +18,11 @@ public class ScheduleService {
 
     public List<Schedule> getAvailableSlots(int counsellorId, LocalDate slotDate) {
         return scheduleRepository.findAvailableSlotsByCounsellorAndDate(counsellorId, slotDate);
+    }
+
+    public String saveSchedules(@RequestBody List<Schedule> schedules) {
+        scheduleRepository.saveAll(schedules);
+        return "Slots saved successfully";
     }
 
     public String updateSlotById(int slotId) {

@@ -16,8 +16,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     List<Appointment> findAllActiveAppointments();
 
     @Modifying
-    @Query("UPDATE Appointment s SET s.status = :status WHERE s.appointmentId = :appointmentId")
-    int updateAppointmentStatus(@Param("status") String status, @Param("appointmentId") int appointmentId);
+    @Query("UPDATE Appointment s SET s.paymentStatus = :paymentStatus WHERE s.appointmentId = :appointmentId")
+    int updateAppointmentStatus(@Param("paymentStatus") String status, @Param("appointmentId") int appointmentId);
 
     @Modifying
     @Transactional
