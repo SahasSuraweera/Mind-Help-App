@@ -58,6 +58,7 @@
 
 .quick-actions {
   margin-top: 40px;
+  width: 100%;
 }
 
 .quick-actions h2 {
@@ -67,11 +68,14 @@
 
 .action-buttons {
   display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
+  gap: 20px;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .action-btn {
+  flex: 1;
+  max-width: 220px;
   background: #1e40af;
   color: white;
   border: none;
@@ -79,7 +83,6 @@
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
-  transition: background 0.3s ease;
 }
 
 .action-btn:hover {
