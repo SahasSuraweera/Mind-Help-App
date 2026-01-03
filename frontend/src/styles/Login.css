@@ -1,63 +1,73 @@
-/* Login.css */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', sans-serif;
+}
 
-.signin-container {
-  max-width: 450px;
-  margin: 80px auto;
-  padding: 30px 25px;
-  background: #f5f7fa;
-  border-radius: 8px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.login-card {
+  background: white;
+  padding: 40px;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
   text-align: center;
 }
 
-.signin-container h2 {
-  margin-bottom: 25px;
-  color: #333;
-  font-weight: 600;
+.login-logo {
+  width: 70px;
+  margin-bottom: 5px;
 }
 
-.signin-container form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+.login-card h2 {
+  margin-bottom: 8px;
+  color: #1e293b;
 }
 
-.signin-container input[type="text"],
-.signin-container input[type="password"] {
-  padding: 12px 15px;
-  font-size: 16px;
-  border: 1.8px solid #ddd;
-  border-radius: 6px;
-  transition: border-color 0.3s ease;
-  max-width: 400px;
-}
-
-.signin-container input[type="text"]:focus,
-.signin-container input[type="password"]:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-.signin-container button {
-  padding: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  background-color: #007bff;
-  border: none;
-  border-radius: 6px;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.25s ease;
-}
-
-.signin-container button:hover {
-  background-color: #0056b3;
-}
-.signin-container .error-message {
-  color: #d9534f;
+.login-subtitle {
+  color: #6b7280;
   font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+.login-card input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  background: #1e40af;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
   margin-top: 10px;
 }
 
+.login-btn:hover {
+  background: #1e3a8a;
+}
+
+.login-footer {
+  margin-top: 25px;
+  font-size: 12px;
+  color: #9ca3af;
+}
+.login-footer a {
+  color: #2563eb;
+  text-decoration: none;
+}
